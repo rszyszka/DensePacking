@@ -1,3 +1,7 @@
+# Jetbrains project folders
+.idea/
+target/
+
 # Compiled class file
 *.class
 
