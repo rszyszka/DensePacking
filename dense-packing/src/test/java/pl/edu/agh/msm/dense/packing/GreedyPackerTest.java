@@ -46,39 +46,39 @@ class GreedyPackerTest {
 
     @Test
     public void shouldPackNextCircleCorrectly() {
-        List<Coords> spiedList = spy(new ArrayList<>());
+        List<Hole> spiedList = spy(new ArrayList<>());
         when(spiedList.isEmpty()).thenReturn(false);
         when(holesFinder.findForCircle(any())).thenReturn(spiedList);
-        when(holesFinder.findCoordsWithMaximumHoleDegree()).thenReturn(coords(30, 10));
+        when(holesFinder.findHoleWithMaximumDegree()).thenReturn(new Hole(null, coords(30, 10)));
 
         boolean packed = packer.tryToPackNextCircle();
 
         assertTrue(packed);
         verify(circleGenerator).generateNewCircle();
         verify(holesFinder).findForCircle(any());
-        verify(holesFinder).findCoordsWithMaximumHoleDegree();
+        verify(holesFinder).findHoleWithMaximumDegree();
     }
 
 
     @Test
     public void shouldPackThirdCircle() {
-        List<Coords> spiedList = spy(new ArrayList<>());
+        List<Hole> spiedList = spy(new ArrayList<>());
         when(spiedList.isEmpty()).thenReturn(true, true, false);
         when(circleGenerator.setLowerRadiusIfPossible(anyInt())).thenReturn(true);
         when(holesFinder.findForCircle(any())).thenReturn(spiedList);
-        when(holesFinder.findCoordsWithMaximumHoleDegree()).thenReturn(coords(30, 10));
+        when(holesFinder.findHoleWithMaximumDegree()).thenReturn(new Hole(null, coords(30, 10)));
 
         boolean packed = packer.tryToPackNextCircle();
 
         assertTrue(packed);
         verify(circleGenerator, times(3)).generateNewCircle();
         verify(holesFinder, times(3)).findForCircle(any());
-        verify(holesFinder).findCoordsWithMaximumHoleDegree();
+        verify(holesFinder).findHoleWithMaximumDegree();
     }
 
     @Test
     public void shouldFailOnPacking() {
-        List<Coords> spiedList = spy(new ArrayList<>());
+        List<Hole> spiedList = spy(new ArrayList<>());
         when(spiedList.isEmpty()).thenReturn(true);
         when(circleGenerator.setLowerRadiusIfPossible(anyInt())).thenReturn(true, false);
         when(holesFinder.findForCircle(any())).thenReturn(spiedList);

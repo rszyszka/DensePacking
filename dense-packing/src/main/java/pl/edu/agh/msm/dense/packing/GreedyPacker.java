@@ -31,14 +31,14 @@ public class GreedyPacker {
 
     public boolean tryToPackNextCircle() {
         Circle circle = circleGenerator.generateNewCircle();
-        List<Coords> coordsList = holesFinder.findForCircle(circle);
+        List<Hole> holes = holesFinder.findForCircle(circle);
 
-        if (coordsList.isEmpty()) {
+        if (holes.isEmpty()) {
             return tryToGenerateAndPackNewCircleWithDiminishedRadius(circle);
         }
 
-        Coords bestCoords = holesFinder.findCoordsWithMaximumHoleDegree();
-        circle.setCoords(bestCoords);
+        Hole bestHole = holesFinder.findHoleWithMaximumDegree();
+        circle.setCoords(bestHole.getCoords());
         return bin.addCircle(circle);
     }
 

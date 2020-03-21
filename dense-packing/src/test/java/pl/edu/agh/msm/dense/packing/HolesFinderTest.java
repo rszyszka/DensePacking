@@ -34,11 +34,11 @@ class HolesFinderTest {
         bin.addCircle(c2);
 
         Circle circle = new Circle(5);
-        List<Coords> coordsList = holesFinder.findForCircle(circle);
+        List<Hole> holes = holesFinder.findForCircle(circle);
 
-        assertEquals(1, coordsList.size());
-        double x = BigDecimal.valueOf(coordsList.get(0).getX()).setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue();
-        double y = BigDecimal.valueOf(coordsList.get(0).getY()).setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue();
+        assertEquals(1, holes.size());
+        double x = BigDecimal.valueOf(holes.get(0).getCoords().getX()).setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue();
+        double y = BigDecimal.valueOf(holes.get(0).getCoords().getY()).setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue();
         assertEquals(coords(7.938, 9.295), coords(x, y));
     }
 

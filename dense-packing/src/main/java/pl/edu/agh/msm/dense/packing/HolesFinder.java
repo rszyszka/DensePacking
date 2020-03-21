@@ -1,6 +1,7 @@
 package pl.edu.agh.msm.dense.packing;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static java.lang.Math.pow;
@@ -12,38 +13,38 @@ public class HolesFinder {
 
     private Bin bin;
     private Circle circle;
-    private List<Coords> solutionCoordsList;
+    private List<Hole> solutionHoles;
 
 
     public HolesFinder(Bin bin) {
         this.bin = bin;
-        solutionCoordsList = new ArrayList<>();
+        solutionHoles = new ArrayList<>();
     }
 
 
-    public Coords findCoordsWithMaximumHoleDegree() {
-        return null;
+    public Hole findHoleWithMaximumDegree() {
+        return new Hole(null, coords(0.0, 0.0));
     }
 
 
-    public List<Coords> findForCircle(Circle circle) {
+    public List<Hole> findForCircle(Circle circle) {
         this.circle = circle;
         int numberOfCirclesInBin = bin.getCircles().size();
         for (int i = 0; i < numberOfCirclesInBin - 1; i++) {
             Circle c1 = bin.getCircles().get(i);
             for (int j = i + 1; j < numberOfCirclesInBin; j++) {
                 Circle c2 = bin.getCircles().get(j);
-                determineNextSolutionCoordsIfExist(circle, c1, c2);
+                determineNextHoleIfExist(circle, c1, c2);
             }
         }
-        return solutionCoordsList;
+        return solutionHoles;
     }
 
 
-    private void determineNextSolutionCoordsIfExist(Circle circle, Circle c1, Circle c2) {
+    private void determineNextHoleIfExist(Circle circle, Circle c1, Circle c2) {
         if (possibleCoordsExist(circle, c1, c2)) {
-            List<Coords> possibleCoordsList = determineAllPossibleCoords(c1, c2);
-            addNotOverlappingCoordsToSolutionCoordsList(possibleCoordsList);
+            List<Hole> possibleHoles = determineAllPossibleHoles(c1, c2);
+            addNotOverlappingHolesToSolutionHolesList(possibleHoles);
         }
     }
 
@@ -53,9 +54,7 @@ public class HolesFinder {
     }
 
 
-    private List<Coords> determineAllPossibleCoords(Circle c1, Circle c2) {
-        List<Coords> possibleCoordsList = new ArrayList<>();
-
+    private List<Hole> determineAllPossibleHoles(Circle c1, Circle c2) {
         double distanceBetweenMiddles = Utils.computeDistanceBetweenMiddles(c1, c2);
         Coords auxiliaryCoords = determineAuxiliaryCoords(c1, c2, distanceBetweenMiddles);
         double cosA = determineCosA(c1, c2, distanceBetweenMiddles);
@@ -66,19 +65,31 @@ public class HolesFinder {
         double x2 = auxiliaryCoords.getX() * cosA + auxiliaryCoords.getY() * sinA + c1.getCoords().getX();
         double y2 = auxiliaryCoords.getY() * cosA - auxiliaryCoords.getX() * sinA + c1.getCoords().getY();
 
-        possibleCoordsList.add(coords(x1, y1));
-        possibleCoordsList.add(coords(x2, y2));
+        List<Hole> possibleHoles = new ArrayList<>();
+        possibleHoles.add(new Hole(Arrays.asList(c1, c2), coords(x1, y1)));
+        possibleHoles.add(new Hole(Arrays.asList(c1, c2), coords(x2, y2)));
 
-        return possibleCoordsList;
+        return possibleHoles;
     }
 
 
-    private void addNotOverlappingCoordsToSolutionCoordsList(List<Coords> possibleCoordsList) {
+    private void addNotOverlappingHolesToSolutionHolesList(List<Hole> possibleHoles) {
+        createAndAddSolutionHoleIfCircleCoordsValid(possibleHoles.get(0));
+        createAndAddSolutionHoleIfCircleCoordsValid(possibleHoles.get(1));
+    }
+
+
+    private void createAndAddSolutionHoleIfCircleCoordsValid(Hole possibleHole) {
         Circle testCircle = new Circle(circle.getR());
-        testCircle.setCoords(possibleCoordsList.get(0));
+        testCircle.setCoords(possibleHole.getCoords());
         if (Utils.isCircleAbleToBePlacedInBin(testCircle, bin)) {
-            solutionCoordsList.add(testCircle.getCoords());
+            calculateHoleDegree(possibleHole);
+            solutionHoles.add(possibleHole);
         }
+    }
+
+    private void calculateHoleDegree(Hole hole) {
+        //TODO: START HERE
     }
 
 
