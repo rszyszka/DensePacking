@@ -88,8 +88,19 @@ public class HolesFinder {
         }
     }
 
+
     private void calculateHoleDegree(Hole hole) {
-        //TODO: START HERE
+        double minDistance = Double.MAX_VALUE;
+        for (Circle circle : bin.getCircles()) {
+            if (circle == hole.getParentCircles().get(0) || circle == hole.getParentCircles().get(1)) {
+                continue;
+            }
+            double currentDistance = Utils.computeDistance(circle.getCoords(), hole.getCoords());
+            if (currentDistance < minDistance) {
+                minDistance = currentDistance;
+            }
+        }
+        hole.setDegree(1.0 - (minDistance / circle.getR()));
     }
 
 

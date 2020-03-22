@@ -21,18 +21,18 @@ class HolesFinderTest {
     void setUp() {
         bin = new Bin(100, 100);
         holesFinder = new HolesFinder(bin);
-    }
 
-
-    @Test
-    void shouldFindHolesCorrectly() {
         Circle c1 = new Circle(3);
         Circle c2 = new Circle(2);
         c1.setCoords(coords(3, 3));
         c2.setCoords(coords(11, 3));
         bin.addCircle(c1);
         bin.addCircle(c2);
+    }
 
+
+    @Test
+    void shouldFindHolesCorrectly() {
         Circle circle = new Circle(5);
         List<Hole> holes = holesFinder.findForCircle(circle);
 
@@ -40,6 +40,21 @@ class HolesFinderTest {
         double x = BigDecimal.valueOf(holes.get(0).getCoords().getX()).setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue();
         double y = BigDecimal.valueOf(holes.get(0).getCoords().getY()).setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue();
         assertEquals(coords(7.938, 9.295), coords(x, y));
+    }
+
+
+    @Test
+    void shouldCalculateHoleDegreeCorrectly() {
+        Circle additionalCircle = new Circle(5);
+        additionalCircle.setCoords(coords(7.9375, 9.294528874347945));
+        bin.addCircle(additionalCircle);
+
+        Circle circle = new Circle(5);
+        List<Hole> holes = holesFinder.findForCircle(circle);
+
+        assertEquals(1, holes.size());
+        double degree = BigDecimal.valueOf(holes.get(0).getDegree()).setScale(4, BigDecimal.ROUND_HALF_UP).doubleValue();
+        assertEquals(-1.9305, degree);
     }
 
 }
