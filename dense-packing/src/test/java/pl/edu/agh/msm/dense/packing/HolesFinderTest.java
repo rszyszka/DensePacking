@@ -57,4 +57,45 @@ class HolesFinderTest {
         assertEquals(-1.9305, degree);
     }
 
+
+    @Test
+    void shouldFindHoleWithMaximumDegreeCorrectly() {
+        Circle c1 = new Circle(5);
+        c1.setCoords(coords(50, 50));
+        bin.addCircle(c1);
+        Circle c2 = new Circle(5);
+        c2.setCoords(coords(40, 40));
+        bin.addCircle(c2);
+        Circle c3 = new Circle(5);
+        c3.setCoords(coords(40, 50));
+        bin.addCircle(c3);
+        Circle c4 = new Circle(3);
+        c4.setCoords(coords(3, 9));
+        bin.addCircle(c4);
+        Circle c5 = new Circle(3);
+        c5.setCoords(coords(3, 15));
+        bin.addCircle(c5);
+
+        holesFinder.findForCircle(new Circle(5));
+
+        assertEquals(-0.8037829604, holesFinder.findHoleWithMaximumDegree().getDegree());
+    }
+
+
+    @Test
+    void eachCircleShouldHaveOwnHoles() {
+        Circle c1 = new Circle(5);
+        c1.setCoords(coords(50, 50));
+        bin.addCircle(c1);
+        Circle c2 = new Circle(5);
+        c2.setCoords(coords(40, 40));
+        bin.addCircle(c2);
+
+        List<Hole> holes = holesFinder.findForCircle(new Circle(5));
+        assertEquals(3, holes.size());
+
+        holes = holesFinder.findForCircle(new Circle(6));
+        assertEquals(3, holes.size());
+    }
+
 }

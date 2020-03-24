@@ -6,7 +6,7 @@ import static java.lang.Math.sqrt;
 
 public class TangentialCirclesInitialConfiguration extends InitialConfiguration {
 
-    TangentialCirclesInitialConfiguration(Bin bin, CircleGenerator circleGenerator) {
+    public TangentialCirclesInitialConfiguration(Bin bin, CircleGenerator circleGenerator) {
         super(bin, circleGenerator);
     }
 

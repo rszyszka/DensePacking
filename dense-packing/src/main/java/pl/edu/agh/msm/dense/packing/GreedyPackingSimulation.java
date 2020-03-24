@@ -8,6 +8,7 @@ public class GreedyPackingSimulation extends Simulation {
 
     private Bin bin;
     private GreedyPacker packer;
+    private int numberOfFilledCells;
 
 
     public GreedyPackingSimulation(Space space, GreedyPacker packer) {
@@ -15,6 +16,7 @@ public class GreedyPackingSimulation extends Simulation {
         bin = packer.getBin();
         this.packer = packer;
         this.packer.createInitialConfiguration();
+        numberOfFilledCells = 0;
     }
 
 
@@ -24,8 +26,21 @@ public class GreedyPackingSimulation extends Simulation {
         if (!packed) {
             SpaceFiller filler = new SpaceFiller(space);
             filler.fillWithAllCircles(bin);
+            numberOfFilledCells = filler.getNumberOfFilledCells();
         }
         return packed;
+    }
+
+
+    public double computeVoxelDensityLevel() {
+        return numberOfFilledCells / (double) (space.getXSize() * space.getYSize());
+    }
+
+
+    public double computeMathDensityLevel() {
+        return bin.getCircles().stream()
+                .mapToDouble(circle -> Math.PI * circle.getR() * circle.getR())
+                .sum() / (double) (space.getXSize() * space.getYSize());
     }
 
 }

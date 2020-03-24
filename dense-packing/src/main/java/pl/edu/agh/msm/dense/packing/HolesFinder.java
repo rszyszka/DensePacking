@@ -2,6 +2,7 @@ package pl.edu.agh.msm.dense.packing;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 import static java.lang.Math.pow;
@@ -18,16 +19,18 @@ public class HolesFinder {
 
     public HolesFinder(Bin bin) {
         this.bin = bin;
-        solutionHoles = new ArrayList<>();
     }
 
 
     public Hole findHoleWithMaximumDegree() {
-        return new Hole(null, coords(0.0, 0.0));
+        return solutionHoles.stream()
+                .max(Comparator.comparingDouble(Hole::getDegree))
+                .orElse(null);
     }
 
 
     public List<Hole> findForCircle(Circle circle) {
+        solutionHoles = new ArrayList<>();
         this.circle = circle;
         int numberOfCirclesInBin = bin.getCircles().size();
         for (int i = 0; i < numberOfCirclesInBin - 1; i++) {

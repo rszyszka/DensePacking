@@ -8,10 +8,12 @@ import static java.lang.Math.*;
 public class SpaceFiller {
 
     private Space space;
+    private int numberOfFilledCells;
 
 
     public SpaceFiller(Space space) {
         this.space = space;
+        numberOfFilledCells = 0;
     }
 
 
@@ -30,11 +32,15 @@ public class SpaceFiller {
             for (int j = yStart; j <= yEnd; j++) {
                 if (isInCircle(i, j, circle)) {
                     space.getCells()[i][j][0].setId(1);
+                    numberOfFilledCells++;
                 }
             }
         }
     }
 
+    public int getNumberOfFilledCells() {
+        return numberOfFilledCells;
+    }
 
     private boolean isInCircle(int x, int y, Circle circle) {
         return pow(x - circle.getCoords().getX(), 2) + pow(y - circle.getCoords().getY(), 2) <= pow(circle.getR(), 2);

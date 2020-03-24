@@ -1,8 +1,11 @@
 package pl.edu.agh.msm.dense.packing;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.RepeatedTest;
+import org.junit.jupiter.api.Test;
 import pl.edu.agh.msm.core.Space;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.*;
 
 public class GreedyPackingSimulationTest {
 
@@ -12,22 +15,27 @@ public class GreedyPackingSimulationTest {
 
     @BeforeEach
     public void setup() {
-        bin = new Bin(100, 100);
-        CircleGenerator circleGenerator = new RandomCircleGenerator(5, 15);
-        InitialConfiguration initialConfiguration = new TangentialCirclesInitialConfiguration(bin, circleGenerator);
-        HolesFinder holesFinder = new HolesFinder(bin);
-        GreedyPacker packer = new GreedyPacker(initialConfiguration, holesFinder);
-        Space space = new Space(100, 100, 1);
+        bin = new Bin(1001, 1001);
+        Space space = new Space(1001, 1001, 1);
+
+        GreedyPacker packer = mock(GreedyPacker.class);
+        when(packer.getBin()).thenReturn(bin);
+        doNothing().when(packer).createInitialConfiguration();
+        when(packer.tryToPackNextCircle()).thenReturn(false);
+
         simulation = new GreedyPackingSimulation(space, packer);
     }
 
+    @Test
+    public void shouldComputeDensityLevelCorrectly() {
+        Circle c1 = new Circle(500);
+        c1.setCoords(Coords.coords(500, 500));
+        bin.addCircle(c1);
 
-    @RepeatedTest(10)
-    public void shouldPerformRealSimulation() {
         simulation.simulateContinuously();
 
-        bin.getCircles().forEach(System.out::println);
+        double expected = (Math.PI * c1.getR() * c1.getR()) / (double) (bin.getXSize() * bin.getYSize());
+        assertEquals(expected, simulation.computeMathDensityLevel());
     }
-
 
 }
