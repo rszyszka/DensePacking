@@ -6,4 +6,6 @@ public interface CircleGenerator {
 
     boolean setLowerRadiusIfPossible(int currentRadiusOfFailedCirclePackingAttempt);
 
+    void resetMaxRadius();
+
 }

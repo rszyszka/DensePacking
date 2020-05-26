@@ -5,11 +5,13 @@ import java.util.Random;
 public class RandomCircleGenerator implements CircleGenerator {
     private int minRadius;
     private int maxRadius;
+    private final int originMaxRadius;
 
 
     public RandomCircleGenerator(int minRadius, int maxRadius) {
         this.minRadius = minRadius;
         this.maxRadius = maxRadius;
+        originMaxRadius = maxRadius;
     }
 
 
@@ -30,4 +32,8 @@ public class RandomCircleGenerator implements CircleGenerator {
         return true;
     }
 
+    @Override
+    public void resetMaxRadius() {
+        maxRadius = originMaxRadius;
+    }
 }

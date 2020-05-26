@@ -9,12 +9,13 @@ public class Bin {
     private int xSize;
     private int ySize;
     private List<Circle> circles;
-
+    private MinDistance minDistance;
 
     public Bin(int xSize, int ySize) {
         this.xSize = xSize;
         this.ySize = ySize;
         circles = new ArrayList<>();
+        minDistance = new ForEachMinDistance();
     }
 
     public boolean addCircle(Circle circle) {
@@ -23,6 +24,10 @@ public class Bin {
             return true;
         }
         return false;
+    }
+
+    public MinDistance getMinDistance() {
+        return minDistance;
     }
 
     public int getNumberOfCirclesPacked() {

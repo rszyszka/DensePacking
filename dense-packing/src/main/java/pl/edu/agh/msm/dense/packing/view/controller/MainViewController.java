@@ -23,8 +23,8 @@ public class MainViewController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         int xSize = 1000;
         int ySize = 1000;
-        int minR = 10;
-        int maxR = 150;
+        int minR = 30;
+        int maxR = 60;
 
         canvas.setWidth(xSize);
         canvas.setHeight(ySize);

@@ -39,6 +39,7 @@ public class GreedyPacker {
 
         Hole bestHole = holesFinder.findHoleWithMaximumDegree();
         circle.setCoords(bestHole.getCoords());
+        circleGenerator.resetMaxRadius();
         return bin.addCircle(circle);
     }
 

@@ -40,13 +40,13 @@ public class Utils {
 
 
     public static double computeDistanceBetweenMiddles(Circle c1, Circle c2) {
-        return computeDistance(c1.getCoords(), c2.getCoords());
+        double distance = sqrt(computeSquaredDistance(c1.getCoords(), c2.getCoords()));
+        return BigDecimal.valueOf(distance).setScale(10, RoundingMode.HALF_UP).doubleValue();
     }
 
 
-    public static double computeDistance(Coords c1, Coords c2) {
-        double distance = sqrt(pow(c1.getX() - c2.getX(), 2) + pow(c1.getY() - c2.getY(), 2));
-        return BigDecimal.valueOf(distance).setScale(10, RoundingMode.HALF_UP).doubleValue();
+    public static double computeSquaredDistance(Coords c1, Coords c2) {
+        return pow(c1.getX() - c2.getX(), 2) + pow(c1.getY() - c2.getY(), 2);
     }
 
 
