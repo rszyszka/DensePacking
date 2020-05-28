@@ -7,13 +7,13 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 
-class RandomCircleGeneratorTest {
+class RandomSphereGeneratorTest {
 
-    private RandomCircleGenerator circleGenerator;
+    private RandomSphereGenerator circleGenerator;
 
     @BeforeEach
     void setUp() {
-        circleGenerator = new RandomCircleGenerator(5, 10);
+        circleGenerator = new RandomSphereGenerator(5, 10);
     }
 
     @RepeatedTest(5)
@@ -38,11 +38,11 @@ class RandomCircleGeneratorTest {
 
     @Test
     public void shouldGenerateCircleWhenMinRadiusEqualsMaxRadius() {
-        circleGenerator = new RandomCircleGenerator(5, 5);
+        circleGenerator = new RandomSphereGenerator(5, 5);
 
-        Circle circle = circleGenerator.generateNewCircle();
+        Sphere sphere = circleGenerator.generateNewCircle();
 
-        assertEquals(5, circle.getR());
+        assertEquals(5, sphere.getR());
     }
 
 }

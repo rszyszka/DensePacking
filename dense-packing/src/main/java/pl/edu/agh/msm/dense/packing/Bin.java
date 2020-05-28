@@ -8,19 +8,29 @@ import java.util.List;
 public class Bin {
     private int xSize;
     private int ySize;
-    private List<Circle> circles;
+    private int zSize;
+    private List<Sphere> spheres;
     private MinDistance minDistance;
 
     public Bin(int xSize, int ySize) {
         this.xSize = xSize;
         this.ySize = ySize;
-        circles = new ArrayList<>();
+        this.zSize = 1;
+        spheres = new ArrayList<>();
         minDistance = new ForEachMinDistance();
     }
 
-    public boolean addCircle(Circle circle) {
-        if (Utils.isCircleAbleToBePlacedInBin(circle, this)) {
-            circles.add(circle);
+    public Bin(int xSize, int ySize, int zSize) {
+        this.xSize = xSize;
+        this.ySize = ySize;
+        this.zSize = zSize;
+        spheres = new ArrayList<>();
+        minDistance = new ForEachMinDistance();
+    }
+
+    public boolean addCircle(Sphere sphere) {
+        if (Utils.isCircleAbleToBePlacedInBin(sphere, this)) {
+            spheres.add(sphere);
             return true;
         }
         return false;
@@ -31,7 +41,7 @@ public class Bin {
     }
 
     public int getNumberOfCirclesPacked() {
-        return circles.size();
+        return spheres.size();
     }
 
     public int getXSize() {
@@ -42,7 +52,11 @@ public class Bin {
         return ySize;
     }
 
-    public List<Circle> getCircles() {
-        return Collections.unmodifiableList(circles);
+    public int getZSize() {
+        return zSize;
+    }
+
+    public List<Sphere> getSpheres() {
+        return Collections.unmodifiableList(spheres);
     }
 }

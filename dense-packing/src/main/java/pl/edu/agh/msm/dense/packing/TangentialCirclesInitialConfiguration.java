@@ -6,8 +6,8 @@ import static java.lang.Math.sqrt;
 
 public class TangentialCirclesInitialConfiguration extends InitialConfiguration {
 
-    public TangentialCirclesInitialConfiguration(Bin bin, CircleGenerator circleGenerator) {
-        super(bin, circleGenerator);
+    public TangentialCirclesInitialConfiguration(Bin bin, SphereGenerator sphereGenerator) {
+        super(bin, sphereGenerator);
     }
 
 
@@ -19,17 +19,17 @@ public class TangentialCirclesInitialConfiguration extends InitialConfiguration 
 
 
     private void addNewCircleNextToFirstOne() {
-        Circle circle = circleGenerator.generateNewCircle();
-        Circle circleInBin = bin.getCircles().get(0);
+        Sphere sphere = sphereGenerator.generateNewCircle();
+        Sphere sphereInBin = bin.getSpheres().get(0);
 
-        int rC = circle.getR();
-        int rA = circleInBin.getR();
+        int rC = sphere.getR();
+        int rA = sphereInBin.getR();
 
-        Coords coordsA = circleInBin.getCoords();
+        Coords coordsA = sphereInBin.getCoords();
         double y = sqrt(pow(rC + rA, 2) - pow(rC - coordsA.getX(), 2)) + coordsA.getY();
 
-        circle.setCoords(Coords.coords(rC, y));
-        bin.addCircle(circle);
+        sphere.setCoords(Coords.coords(rC, y));
+        bin.addCircle(sphere);
     }
 
 }

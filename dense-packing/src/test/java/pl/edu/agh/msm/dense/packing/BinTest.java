@@ -28,10 +28,10 @@ class BinTest {
     @ParameterizedTest
     @ValueSource(ints = {10, 20, 30, 5, 7})
     public void shouldAddFirstCircleSuccessfully(int radius) {
-        Circle circle = new Circle(radius);
-        circle.setCoords(coords(radius, radius));
+        Sphere sphere = new Sphere(radius);
+        sphere.setCoords(coords(radius, radius));
 
-        assertTrue(bin.addCircle(circle));
+        assertTrue(bin.addCircle(sphere));
     }
 
     @ParameterizedTest
@@ -39,7 +39,7 @@ class BinTest {
     public void shouldFailOnCircleAddition(int x) {
         preAddCircleToBin();
 
-        Circle c2 = new Circle(10);
+        Sphere c2 = new Sphere(10);
         c2.setCoords(coords(x, 10));
 
         assertFalse(bin.addCircle(c2));
@@ -50,14 +50,14 @@ class BinTest {
     public void shouldAddSecondCircleSuccessfully(int x) {
         preAddCircleToBin();
 
-        Circle circle = new Circle(10);
-        circle.setCoords(coords(x, 10));
+        Sphere sphere = new Sphere(10);
+        sphere.setCoords(coords(x, 10));
 
-        assertTrue(bin.addCircle(circle));
+        assertTrue(bin.addCircle(sphere));
     }
 
     private void preAddCircleToBin() {
-        Circle c1 = new Circle((10));
+        Sphere c1 = new Sphere((10));
         c1.setCoords(coords(10, 10));
         Assumptions.assumeTrue(bin.addCircle(c1), "Problem in addition of valid circle");
     }
@@ -65,8 +65,8 @@ class BinTest {
     @Test
     void shouldGetUnmodifiableListOfCircles() {
         preAddCircleToBin();
-        assertEquals(1, bin.getCircles().size());
-        assertThrows(UnsupportedOperationException.class, () -> bin.getCircles().add(new Circle(10)));
+        assertEquals(1, bin.getSpheres().size());
+        assertThrows(UnsupportedOperationException.class, () -> bin.getSpheres().add(new Sphere(10)));
     }
 
 }

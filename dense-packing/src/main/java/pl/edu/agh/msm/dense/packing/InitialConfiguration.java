@@ -4,12 +4,12 @@ package pl.edu.agh.msm.dense.packing;
 public abstract class InitialConfiguration {
 
     protected final Bin bin;
-    protected final CircleGenerator circleGenerator;
+    protected final SphereGenerator sphereGenerator;
 
 
-    InitialConfiguration(Bin bin, CircleGenerator circleGenerator) {
+    InitialConfiguration(Bin bin, SphereGenerator sphereGenerator) {
         this.bin = bin;
-        this.circleGenerator = circleGenerator;
+        this.sphereGenerator = sphereGenerator;
     }
 
 
@@ -17,9 +17,9 @@ public abstract class InitialConfiguration {
 
 
     protected void addNewCircleInUpperLeftCorner() {
-        Circle circle = this.circleGenerator.generateNewCircle();
-        circle.setCoords(Coords.coords(circle.getR(), circle.getR()));
-        bin.addCircle(circle);
+        Sphere sphere = this.sphereGenerator.generateNewCircle();
+        sphere.setCoords(Coords.coords(sphere.getR(), sphere.getR()));
+        bin.addCircle(sphere);
     }
 
 
@@ -28,8 +28,8 @@ public abstract class InitialConfiguration {
     }
 
 
-    public CircleGenerator getCircleGenerator() {
-        return circleGenerator;
+    public SphereGenerator getSphereGenerator() {
+        return sphereGenerator;
     }
 
 }

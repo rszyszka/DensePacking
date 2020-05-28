@@ -1,8 +1,8 @@
 package pl.edu.agh.msm.dense.packing;
 
 public class CirclesInCornersInitialConfiguration extends InitialConfiguration {
-    CirclesInCornersInitialConfiguration(Bin bin, CircleGenerator circleGenerator) {
-        super(bin, circleGenerator);
+    CirclesInCornersInitialConfiguration(Bin bin, SphereGenerator sphereGenerator) {
+        super(bin, sphereGenerator);
     }
 
     @Override
@@ -13,9 +13,9 @@ public class CirclesInCornersInitialConfiguration extends InitialConfiguration {
 
 
     private void addNewCircleInLowerLeftCorner() {
-        Circle circle = circleGenerator.generateNewCircle();
-        circle.setCoords(Coords.coords(circle.getR(), bin.getYSize() - circle.getR()));
-        bin.addCircle(circle);
+        Sphere sphere = sphereGenerator.generateNewCircle();
+        sphere.setCoords(Coords.coords(sphere.getR(), bin.getYSize() - sphere.getR()));
+        bin.addCircle(sphere);
     }
 
 }

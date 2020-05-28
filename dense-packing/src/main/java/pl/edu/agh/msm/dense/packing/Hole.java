@@ -4,20 +4,20 @@ import java.util.List;
 
 public class Hole {
 
-    private List<Circle> parentCircles;
+    private List<Sphere> parentSpheres;
     private Coords coords;
     private double degree;
 
 
-    Hole(List<Circle> parentCircles, Coords coords) {
-        this.parentCircles = parentCircles;
+    Hole(List<Sphere> parentSpheres, Coords coords) {
+        this.parentSpheres = parentSpheres;
         this.coords = coords;
         this.degree = 0.0;
     }
 
 
-    public List<Circle> getParentCircles() {
-        return parentCircles;
+    public List<Sphere> getParentSpheres() {
+        return parentSpheres;
     }
 
 

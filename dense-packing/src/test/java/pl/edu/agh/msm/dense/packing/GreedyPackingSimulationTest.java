@@ -28,7 +28,7 @@ public class GreedyPackingSimulationTest {
 
     @Test
     public void shouldComputeDensityLevelCorrectly() {
-        Circle c1 = new Circle(500);
+        Sphere c1 = new Sphere(500);
         c1.setCoords(Coords.coords(500, 500));
         bin.addCircle(c1);
 

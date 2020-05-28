@@ -23,9 +23,9 @@ public class SpaceFillerTest {
         };
         Space space = new Space(9, 9, 1);
         SpaceFiller filler = new SpaceFiller(space);
-        Circle c1 = new Circle(3);
+        Sphere c1 = new Sphere(3);
         c1.setCoords(coords(4, 4));
-        Circle c2 = new Circle(1);
+        Sphere c2 = new Sphere(1);
         c2.setCoords(coords(1, 1));
         Bin bin = new Bin(space.getXSize(), space.getYSize());
         bin.addCircle(c1);
@@ -51,10 +51,10 @@ public class SpaceFillerTest {
         };
         Space space = new Space(9, 9, 1);
         SpaceFiller filler = new SpaceFiller(space);
-        Circle circle = new Circle(3);
-        circle.setCoords(coords(4, 4));
+        Sphere sphere = new Sphere(3);
+        sphere.setCoords(coords(4, 4));
 
-        filler.fillWithCircle(circle);
+        filler.fillWithCircle(sphere);
 
         assertArrayEquals(expected, retrieveResult(space));
     }

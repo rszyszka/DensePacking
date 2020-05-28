@@ -2,13 +2,13 @@ package pl.edu.agh.msm.dense.packing;
 
 import java.util.Random;
 
-public class RandomCircleGenerator implements CircleGenerator {
+public class RandomSphereGenerator implements SphereGenerator {
     private int minRadius;
     private int maxRadius;
     private final int originMaxRadius;
 
 
-    public RandomCircleGenerator(int minRadius, int maxRadius) {
+    public RandomSphereGenerator(int minRadius, int maxRadius) {
         this.minRadius = minRadius;
         this.maxRadius = maxRadius;
         originMaxRadius = maxRadius;
@@ -16,10 +16,10 @@ public class RandomCircleGenerator implements CircleGenerator {
 
 
     @Override
-    public Circle generateNewCircle() {
+    public Sphere generateNewCircle() {
         int diff = maxRadius - minRadius;
         int radius = diff == 0 ? minRadius : new Random().nextInt(diff) + minRadius;
-        return new Circle(radius);
+        return new Sphere(radius);
     }
 
 

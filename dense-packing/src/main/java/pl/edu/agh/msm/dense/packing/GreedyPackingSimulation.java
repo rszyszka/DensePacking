@@ -38,9 +38,9 @@ public class GreedyPackingSimulation extends Simulation {
 
 
     public double computeMathDensityLevel() {
-        return bin.getCircles().stream()
+        return bin.getSpheres().stream()
                 .mapToDouble(circle -> Math.PI * circle.getR() * circle.getR())
-                .sum() / (double) (space.getXSize() * space.getYSize());
+                .sum() / (double) (space.getXSize() * space.getYSize() * space.getZSize());
     }
 
 }

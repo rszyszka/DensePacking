@@ -18,19 +18,19 @@ public class SpaceFiller {
 
 
     public void fillWithAllCircles(Bin bin) {
-        bin.getCircles().forEach(this::fillWithCircle);
+        bin.getSpheres().forEach(this::fillWithCircle);
     }
 
 
-    public void fillWithCircle(Circle circle) {
-        int xStart = (int) floor(circle.getCoords().getX()) - circle.getR();
-        int xEnd = (int) ceil(circle.getCoords().getX()) + circle.getR();
-        int yStart = (int) floor(circle.getCoords().getY()) - circle.getR();
-        int yEnd = (int) ceil(circle.getCoords().getY()) + circle.getR();
+    public void fillWithCircle(Sphere sphere) {
+        int xStart = (int) floor(sphere.getCoords().getX()) - sphere.getR();
+        int xEnd = (int) ceil(sphere.getCoords().getX()) + sphere.getR();
+        int yStart = (int) floor(sphere.getCoords().getY()) - sphere.getR();
+        int yEnd = (int) ceil(sphere.getCoords().getY()) + sphere.getR();
 
         for (int i = xStart; i <= xEnd; i++) {
             for (int j = yStart; j <= yEnd; j++) {
-                if (isInCircle(i, j, circle)) {
+                if (isInCircle(i, j, sphere)) {
                     space.getCells()[i][j][0].setId(1);
                     numberOfFilledCells++;
                 }
@@ -42,8 +42,8 @@ public class SpaceFiller {
         return numberOfFilledCells;
     }
 
-    private boolean isInCircle(int x, int y, Circle circle) {
-        return pow(x - circle.getCoords().getX(), 2) + pow(y - circle.getCoords().getY(), 2) <= pow(circle.getR(), 2);
+    private boolean isInCircle(int x, int y, Sphere sphere) {
+        return pow(x - sphere.getCoords().getX(), 2) + pow(y - sphere.getCoords().getY(), 2) <= pow(sphere.getR(), 2);
     }
 
 }

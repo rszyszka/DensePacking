@@ -1,8 +1,8 @@
 package pl.edu.agh.msm.dense.packing;
 
-public interface CircleGenerator {
+public interface SphereGenerator {
 
-    Circle generateNewCircle();
+    Sphere generateNewCircle();
 
     boolean setLowerRadiusIfPossible(int currentRadiusOfFailedCirclePackingAttempt);
 

@@ -1,10 +1,10 @@
 package pl.edu.agh.msm.dense.packing;
 
-public class Circle {
+public class Sphere {
     private final int r;
     private Coords coords;
 
-    public Circle(int r) {
+    public Sphere(int r) {
         this.r = r;
         coords = Coords.coords(0, 0);
     }

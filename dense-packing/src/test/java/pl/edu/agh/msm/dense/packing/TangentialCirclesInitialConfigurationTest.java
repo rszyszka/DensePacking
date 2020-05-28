@@ -11,26 +11,26 @@ import static org.mockito.Mockito.*;
 
 class TangentialCirclesInitialConfigurationTest {
 
-    private CircleGenerator circleGenerator;
+    private SphereGenerator sphereGenerator;
     private TangentialCirclesInitialConfiguration configuration;
     private Bin bin;
 
     @BeforeEach
     void setUp() {
-        circleGenerator = mock(CircleGenerator.class);
+        sphereGenerator = mock(SphereGenerator.class);
         bin = spy(new Bin(100, 100));
-        configuration = new TangentialCirclesInitialConfiguration(bin, circleGenerator);
+        configuration = new TangentialCirclesInitialConfiguration(bin, sphereGenerator);
     }
 
     @Test
     public void shouldCreateInitialConfigurationWithTangentialCircles() {
-        ArgumentCaptor<Circle> circleArgumentCaptor = ArgumentCaptor.forClass(Circle.class);
-        when(circleGenerator.generateNewCircle()).thenAnswer(invocation -> new Circle(10));
+        ArgumentCaptor<Sphere> circleArgumentCaptor = ArgumentCaptor.forClass(Sphere.class);
+        when(sphereGenerator.generateNewCircle()).thenAnswer(invocation -> new Sphere(10));
 
         configuration.init();
 
         assertEquals(2, configuration.getBin().getNumberOfCirclesPacked());
-        verify(circleGenerator, times(2)).generateNewCircle();
+        verify(sphereGenerator, times(2)).generateNewCircle();
         verify(bin, times(2)).addCircle(circleArgumentCaptor.capture());
         assertEquals(10, circleArgumentCaptor.getAllValues().get(0).getCoords().getY());
         assertEquals(30, circleArgumentCaptor.getAllValues().get(1).getCoords().getY());
@@ -39,9 +39,9 @@ class TangentialCirclesInitialConfigurationTest {
     @ParameterizedTest
     @ValueSource(ints = {5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15})
     public void shouldCreateCorrectConfigurationForUnequalCircles(int r) {
-        Circle c1 = new Circle(14);
-        Circle c2 = new Circle(r);
-        when(circleGenerator.generateNewCircle()).thenReturn(c1, c2);
+        Sphere c1 = new Sphere(14);
+        Sphere c2 = new Sphere(r);
+        when(sphereGenerator.generateNewCircle()).thenReturn(c1, c2);
 
         configuration.init();
 
