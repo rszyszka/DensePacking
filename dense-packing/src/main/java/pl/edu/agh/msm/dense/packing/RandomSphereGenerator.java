@@ -3,7 +3,7 @@ package pl.edu.agh.msm.dense.packing;
 import java.util.Random;
 
 public class RandomSphereGenerator implements SphereGenerator {
-    private int minRadius;
+    private final int minRadius;
     private int maxRadius;
     private final int originMaxRadius;
 
@@ -16,7 +16,7 @@ public class RandomSphereGenerator implements SphereGenerator {
 
 
     @Override
-    public Sphere generateNewCircle() {
+    public Sphere generateNewSphere() {
         int diff = maxRadius - minRadius;
         int radius = diff == 0 ? minRadius : new Random().nextInt(diff) + minRadius;
         return new Sphere(radius);

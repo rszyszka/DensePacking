@@ -2,10 +2,12 @@ package pl.edu.agh.msm.dense.packing;
 
 import java.util.Objects;
 
+import static java.lang.Double.isNaN;
+
 public class Coords {
-    private double x;
-    private double y;
-    private double z;
+    private final double x;
+    private final double y;
+    private final double z;
 
     private Coords(double x, double y, double z) {
         this.x = x;
@@ -18,7 +20,7 @@ public class Coords {
     }
 
     public static Coords coords(double x, double y, double z) {
-        return new Coords(x, y, z);
+        return new Coords(isNaN(x) ? 0 : x, isNaN(y) ? 0 : y, isNaN(z) ? 0 : z);
     }
 
     public double getX() {

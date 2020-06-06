@@ -1,22 +1,21 @@
 package pl.edu.agh.msm.dense.packing.view;
 
+import javafx.concurrent.Task;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.paint.Color;
 import pl.edu.agh.msm.dense.packing.Bin;
 import pl.edu.agh.msm.dense.packing.GreedyPackingSimulation;
 
 import java.time.Instant;
 
-public class TwoDimensionalView {
-    private Canvas canvas;
-    private GreedyPackingSimulation simulation;
-    private Bin bin;
+public class TwoDimensionalView extends Task<Bin> {
+    private final Canvas canvas;
+    private final GreedyPackingSimulation simulation;
+    private final Bin bin;
 
 
     public TwoDimensionalView(BorderPane borderPane, GreedyPackingSimulation simulation, Bin bin) {
         canvas = new Canvas(bin.getXSize(), bin.getYSize());
-        canvas.getGraphicsContext2D().setFill(Color.ROYALBLUE);
         borderPane.setCenter(canvas);
         this.simulation = simulation;
         this.bin = bin;
@@ -32,7 +31,6 @@ public class TwoDimensionalView {
         System.out.println("Voxel density level: " + simulation.computeVoxelDensityLevel());
         System.out.println("Math density level: " + simulation.computeMathDensityLevel());
 
-        //drawUsingVoxelSpace();
         drawUsingStandardOvalFilling();
     }
 
@@ -56,5 +54,11 @@ public class TwoDimensionalView {
             int d = 2 * r;
             canvas.getGraphicsContext2D().fillOval(x - r, y - r, d, d);
         });
+    }
+
+    @Override
+    protected Bin call() throws Exception {
+        performSimulationAndShowResults();
+        return bin;
     }
 }

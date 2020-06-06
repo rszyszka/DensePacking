@@ -13,9 +13,9 @@ public class CirclesInCornersInitialConfiguration extends InitialConfiguration {
 
 
     private void addNewCircleInLowerLeftCorner() {
-        Sphere sphere = sphereGenerator.generateNewCircle();
+        Sphere sphere = sphereGenerator.generateNewSphere();
         sphere.setCoords(Coords.coords(sphere.getR(), bin.getYSize() - sphere.getR()));
-        bin.addCircle(sphere);
+        bin.addSphere(sphere);
     }
 
 }

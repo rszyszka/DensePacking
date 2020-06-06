@@ -1,14 +1,14 @@
 package pl.edu.agh.msm.dense.packing;
 
-
 import java.util.List;
+
 
 public class GreedyPacker {
 
-    private InitialConfiguration initialConfiguration;
-    private Bin bin;
-    private SphereGenerator sphereGenerator;
-    private HolesFinder holesFinder;
+    private final InitialConfiguration initialConfiguration;
+    private final Bin bin;
+    private final SphereGenerator sphereGenerator;
+    private final HolesFinder holesFinder;
 
 
     public GreedyPacker(InitialConfiguration initialConfiguration, HolesFinder holesFinder) {
@@ -30,8 +30,8 @@ public class GreedyPacker {
 
 
     public boolean tryToPackNextCircle() {
-        Sphere sphere = sphereGenerator.generateNewCircle();
-        List<Hole> holes = holesFinder.findForCircle(sphere);
+        Sphere sphere = sphereGenerator.generateNewSphere();
+        List<Hole> holes = holesFinder.findForSphere(sphere);
 
         if (holes.isEmpty()) {
             return tryToGenerateAndPackNewSphereWithDiminishedRadius(sphere);
@@ -40,7 +40,7 @@ public class GreedyPacker {
         Hole bestHole = holesFinder.findHoleWithMaximumDegree();
         sphere.setCoords(bestHole.getCoords());
         sphereGenerator.resetMaxRadius();
-        return bin.addCircle(sphere);
+        return bin.addSphere(sphere);
     }
 
 

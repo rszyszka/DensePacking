@@ -1,5 +1,7 @@
 package pl.edu.agh.msm.dense.packing.view;
 
+import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.scene.Group;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.SceneAntialiasing;
@@ -13,13 +15,13 @@ import pl.edu.agh.msm.dense.packing.GreedyPackingSimulation;
 
 import java.time.Instant;
 
-public class ThreeDimensionalView {
+public class ThreeDimensionalView extends Task<Bin> {
     private final int xTranslate;
     private final int yTranslate;
     private final int zTranslate;
-    private GreedyPackingSimulation simulation;
-    private Bin bin;
-    private Group group;
+    private final GreedyPackingSimulation simulation;
+    private final Bin bin;
+    private final Group group;
 
     public ThreeDimensionalView(BorderPane borderPane, GreedyPackingSimulation simulation, Bin bin) {
         this.simulation = simulation;
@@ -30,11 +32,11 @@ public class ThreeDimensionalView {
         zTranslate = bin.getZSize() >> 1;
 
         group = new Group();
-        group.setTranslateX(xTranslate);
-        group.setTranslateY(yTranslate);
-        group.setTranslateZ(zTranslate);
+        group.setTranslateX(500);
+        group.setTranslateY(500);
+        group.setTranslateZ(-1000);
 
-        SubScene scene = new SubScene(group, bin.getXSize(), bin.getYSize(), true, SceneAntialiasing.BALANCED);
+        SubScene scene = new SubScene(group, 1000, 1000, true, SceneAntialiasing.BALANCED);
         scene.setFill(Color.SILVER);
         scene.setCamera(new PerspectiveCamera());
         GroupMouseControl.init(borderPane, group);
@@ -51,7 +53,7 @@ public class ThreeDimensionalView {
         System.out.println("Voxel density level: " + simulation.computeVoxelDensityLevel());
         System.out.println("Math density level: " + simulation.computeMathDensityLevel());
 
-        drawUsingStandardOvalFilling();
+        Platform.runLater(this::drawUsingStandardOvalFilling);
     }
 
     private void drawUsingStandardOvalFilling() {
@@ -62,10 +64,15 @@ public class ThreeDimensionalView {
             element.setTranslateZ(sphere.getCoords().getZ() - zTranslate);
 
             PhongMaterial material = new PhongMaterial();
-            material.setDiffuseColor(Color.ROYALBLUE);
+            material.setDiffuseColor(Color.GOLD);
             element.setMaterial(material);
             group.getChildren().add(element);
         });
     }
 
+    @Override
+    protected Bin call() throws Exception {
+        performSimulationAndShowResults();
+        return bin;
+    }
 }

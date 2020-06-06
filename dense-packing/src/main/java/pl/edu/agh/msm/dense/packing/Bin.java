@@ -6,11 +6,11 @@ import java.util.List;
 
 
 public class Bin {
-    private int xSize;
-    private int ySize;
-    private int zSize;
-    private List<Sphere> spheres;
-    private MinDistance minDistance;
+    private final int xSize;
+    private final int ySize;
+    private final int zSize;
+    private final List<Sphere> spheres;
+    private final MinDistance minDistance;
 
     public Bin(int xSize, int ySize) {
         this.xSize = xSize;
@@ -28,8 +28,8 @@ public class Bin {
         minDistance = new ForEachMinDistance();
     }
 
-    public boolean addCircle(Sphere sphere) {
-        if (Utils.isCircleAbleToBePlacedInBin(sphere, this)) {
+    public boolean addSphere(Sphere sphere) {
+        if (Utils.isSphereAbleToBePlacedInBin(sphere, this)) {
             spheres.add(sphere);
             return true;
         }

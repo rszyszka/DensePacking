@@ -6,7 +6,7 @@ public class Sphere {
 
     public Sphere(int r) {
         this.r = r;
-        coords = Coords.coords(0, 0);
+        coords = Coords.coords(0, 0, 0);
     }
 
     public int getR() {

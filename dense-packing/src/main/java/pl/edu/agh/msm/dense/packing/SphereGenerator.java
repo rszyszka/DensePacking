@@ -2,7 +2,7 @@ package pl.edu.agh.msm.dense.packing;
 
 public interface SphereGenerator {
 
-    Sphere generateNewCircle();
+    Sphere generateNewSphere();
 
     boolean setLowerRadiusIfPossible(int currentRadiusOfFailedCirclePackingAttempt);
 

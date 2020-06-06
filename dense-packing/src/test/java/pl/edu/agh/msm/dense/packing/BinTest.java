@@ -31,7 +31,7 @@ class BinTest {
         Sphere sphere = new Sphere(radius);
         sphere.setCoords(coords(radius, radius));
 
-        assertTrue(bin.addCircle(sphere));
+        assertTrue(bin.addSphere(sphere));
     }
 
     @ParameterizedTest
@@ -42,7 +42,7 @@ class BinTest {
         Sphere c2 = new Sphere(10);
         c2.setCoords(coords(x, 10));
 
-        assertFalse(bin.addCircle(c2));
+        assertFalse(bin.addSphere(c2));
     }
 
     @ParameterizedTest
@@ -53,13 +53,13 @@ class BinTest {
         Sphere sphere = new Sphere(10);
         sphere.setCoords(coords(x, 10));
 
-        assertTrue(bin.addCircle(sphere));
+        assertTrue(bin.addSphere(sphere));
     }
 
     private void preAddCircleToBin() {
         Sphere c1 = new Sphere((10));
         c1.setCoords(coords(10, 10));
-        Assumptions.assumeTrue(bin.addCircle(c1), "Problem in addition of valid circle");
+        Assumptions.assumeTrue(bin.addSphere(c1), "Problem in addition of valid circle");
     }
 
     @Test

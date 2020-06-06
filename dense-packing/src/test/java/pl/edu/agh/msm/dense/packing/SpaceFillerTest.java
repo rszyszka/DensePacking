@@ -28,8 +28,8 @@ public class SpaceFillerTest {
         Sphere c2 = new Sphere(1);
         c2.setCoords(coords(1, 1));
         Bin bin = new Bin(space.getXSize(), space.getYSize());
-        bin.addCircle(c1);
-        bin.addCircle(c2);
+        bin.addSphere(c1);
+        bin.addSphere(c2);
 
         filler.fillWithAllCircles(bin);
 

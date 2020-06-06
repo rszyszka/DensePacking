@@ -26,7 +26,7 @@ class GreedyPackerTest {
         Bin bin = new Bin(100, 100);
 
         sphereGenerator = mock(SphereGenerator.class);
-        when(sphereGenerator.generateNewCircle()).thenAnswer(invocationOnMock -> new Sphere(10));
+        when(sphereGenerator.generateNewSphere()).thenAnswer(invocationOnMock -> new Sphere(10));
 
         configuration = spy(new TangentialCirclesInitialConfiguration(bin, sphereGenerator));
         doNothing().when(configuration).init();
@@ -48,14 +48,14 @@ class GreedyPackerTest {
     public void shouldPackNextCircleCorrectly() {
         List<Hole> spiedList = spy(new ArrayList<>());
         when(spiedList.isEmpty()).thenReturn(false);
-        when(holesFinder.findForCircle(any())).thenReturn(spiedList);
+        when(holesFinder.findForSphere(any())).thenReturn(spiedList);
         when(holesFinder.findHoleWithMaximumDegree()).thenReturn(new Hole(null, coords(30, 10)));
 
         boolean packed = packer.tryToPackNextCircle();
 
         assertTrue(packed);
-        verify(sphereGenerator).generateNewCircle();
-        verify(holesFinder).findForCircle(any());
+        verify(sphereGenerator).generateNewSphere();
+        verify(holesFinder).findForSphere(any());
         verify(holesFinder).findHoleWithMaximumDegree();
     }
 
@@ -65,14 +65,14 @@ class GreedyPackerTest {
         List<Hole> spiedList = spy(new ArrayList<>());
         when(spiedList.isEmpty()).thenReturn(true, true, false);
         when(sphereGenerator.setLowerRadiusIfPossible(anyInt())).thenReturn(true);
-        when(holesFinder.findForCircle(any())).thenReturn(spiedList);
+        when(holesFinder.findForSphere(any())).thenReturn(spiedList);
         when(holesFinder.findHoleWithMaximumDegree()).thenReturn(new Hole(null, coords(30, 10)));
 
         boolean packed = packer.tryToPackNextCircle();
 
         assertTrue(packed);
-        verify(sphereGenerator, times(3)).generateNewCircle();
-        verify(holesFinder, times(3)).findForCircle(any());
+        verify(sphereGenerator, times(3)).generateNewSphere();
+        verify(holesFinder, times(3)).findForSphere(any());
         verify(holesFinder).findHoleWithMaximumDegree();
     }
 
@@ -81,13 +81,13 @@ class GreedyPackerTest {
         List<Hole> spiedList = spy(new ArrayList<>());
         when(spiedList.isEmpty()).thenReturn(true);
         when(sphereGenerator.setLowerRadiusIfPossible(anyInt())).thenReturn(true, false);
-        when(holesFinder.findForCircle(any())).thenReturn(spiedList);
+        when(holesFinder.findForSphere(any())).thenReturn(spiedList);
 
         boolean packed = packer.tryToPackNextCircle();
 
         assertFalse(packed);
-        verify(sphereGenerator, times(2)).generateNewCircle();
-        verify(holesFinder, times(2)).findForCircle(any());
+        verify(sphereGenerator, times(2)).generateNewSphere();
+        verify(holesFinder, times(2)).findForSphere(any());
     }
 
 }

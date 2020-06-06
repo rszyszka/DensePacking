@@ -9,7 +9,7 @@ import static java.lang.Math.sqrt;
 
 public class Utils {
 
-    public static boolean isCircleAbleToBePlacedInBin(Sphere sphere, Bin bin) {
+    public static boolean isSphereAbleToBePlacedInBin(Sphere sphere, Bin bin) {
         if (!isSphereNotOverlappingBin(sphere, bin)) {
             return false;
         }
@@ -36,19 +36,19 @@ public class Utils {
     }
 
 
-    public static double computeDistanceBetweenCircuits(Sphere c1, Sphere c2) {
-        return computeDistanceBetweenMiddles(c1, c2) - c1.getR() - c2.getR();
+    public static double computeDistanceBetweenCircuits(Sphere s1, Sphere s2) {
+        return computeDistanceBetweenMiddles(s1, s2) - s1.getR() - s2.getR();
     }
 
 
-    public static double computeDistanceBetweenMiddles(Sphere c1, Sphere c2) {
-        double distance = sqrt(computeSquaredDistance(c1.getCoords(), c2.getCoords()));
+    public static double computeDistanceBetweenMiddles(Sphere s1, Sphere s2) {
+        double distance = sqrt(computeSquaredDistance(s1.getCoords(), s2.getCoords()));
         return BigDecimal.valueOf(distance).setScale(10, RoundingMode.HALF_UP).doubleValue();
     }
 
 
-    public static double computeSquaredDistance(Coords c1, Coords c2) {
-        return pow(c1.getX() - c2.getX(), 2) + pow(c1.getY() - c2.getY(), 2) + pow(c1.getZ() - c2.getZ(), 2);
+    public static double computeSquaredDistance(Coords s1, Coords s2) {
+        return pow(s1.getX() - s2.getX(), 2) + pow(s1.getY() - s2.getY(), 2) + pow(s1.getZ() - s2.getZ(), 2);
     }
 
 

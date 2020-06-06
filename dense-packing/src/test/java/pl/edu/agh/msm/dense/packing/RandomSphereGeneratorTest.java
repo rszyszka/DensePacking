@@ -18,7 +18,7 @@ class RandomSphereGeneratorTest {
 
     @RepeatedTest(5)
     public void shouldGenerateNewCircleWithinPossibleRadiusRange() {
-        int circleRadius = circleGenerator.generateNewCircle().getR();
+        int circleRadius = circleGenerator.generateNewSphere().getR();
 
         assertTrue(circleRadius >= 5, "Radius = " + circleRadius + " is below given range");
         assertTrue(circleRadius <= 10, "Radius = " + circleRadius + " is above given range");
@@ -40,7 +40,7 @@ class RandomSphereGeneratorTest {
     public void shouldGenerateCircleWhenMinRadiusEqualsMaxRadius() {
         circleGenerator = new RandomSphereGenerator(5, 5);
 
-        Sphere sphere = circleGenerator.generateNewCircle();
+        Sphere sphere = circleGenerator.generateNewSphere();
 
         assertEquals(5, sphere.getR());
     }

@@ -30,7 +30,7 @@ public class GreedyPackingSimulationTest {
     public void shouldComputeDensityLevelCorrectly() {
         Sphere c1 = new Sphere(500);
         c1.setCoords(Coords.coords(500, 500));
-        bin.addCircle(c1);
+        bin.addSphere(c1);
 
         simulation.simulateContinuously();
 

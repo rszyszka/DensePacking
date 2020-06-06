@@ -6,13 +6,13 @@ import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
 
 public class AxisBox extends Group {
-    private static final int THICKNESS = 4;
+    private static final int THICKNESS = 1;
     private final int xTranslate;
     private final int yTranslate;
     private final int zTranslate;
-    private int width;
-    private int height;
-    private int depth;
+    private final int width;
+    private final int height;
+    private final int depth;
 
     public AxisBox(int width, int height, int depth) {
         this.width = width;

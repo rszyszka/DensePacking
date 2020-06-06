@@ -17,9 +17,10 @@ public abstract class InitialConfiguration {
 
 
     protected void addNewCircleInUpperLeftCorner() {
-        Sphere sphere = this.sphereGenerator.generateNewCircle();
-        sphere.setCoords(Coords.coords(sphere.getR(), sphere.getR()));
-        bin.addCircle(sphere);
+        Sphere sphere = this.sphereGenerator.generateNewSphere();
+        Coords coords = bin.getZSize() == 1 ? Coords.coords(sphere.getR(), sphere.getR()) : Coords.coords(sphere.getR(), sphere.getR(), sphere.getR());
+        sphere.setCoords(coords);
+        bin.addSphere(sphere);
     }
 
 
