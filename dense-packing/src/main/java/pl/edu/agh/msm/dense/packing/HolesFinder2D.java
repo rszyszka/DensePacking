@@ -5,36 +5,94 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static java.lang.Math.pow;
-import static java.lang.Math.sqrt;
+import static java.lang.Math.*;
 import static pl.edu.agh.msm.dense.packing.Coords.coords;
 
 
 public class HolesFinder2D extends HolesFinder {
 
     public HolesFinder2D(Bin bin) {
-        this.bin = bin;
+        super(bin);
     }
 
 
     @Override
     public List<Hole> findForSphere(Sphere sphere) {
-        solutionHoles = new ArrayList<>();
         this.sphere = sphere;
+        solutionHoles = new ArrayList<>();
+        determineCornerHolesIfExist();
+        determineBoundaryHolesIfExists();
+        determineHolesFromSpheresIfExist();
+        return solutionHoles;
+    }
+
+
+    private void determineCornerHolesIfExist() {
+        Plane xz = bin.getPlanes().get(0);
+        Plane yz = bin.getPlanes().get(1);
+        int x1 = sphere.getR();
+        int y1 = sphere.getR();
+        int x2 = bin.getXSize() - x1;
+        int y2 = bin.getYSize() - y1;
+
+        List<Hole> possibleHoles = new ArrayList<>();
+        possibleHoles.add(new Hole(Arrays.asList(xz, yz), coords(x1, y1)));
+        possibleHoles.add(new Hole(Arrays.asList(xz, yz), coords(x2, y1)));
+        possibleHoles.add(new Hole(Arrays.asList(xz, yz), coords(x1, y2)));
+        possibleHoles.add(new Hole(Arrays.asList(xz, yz), coords(x2, y2)));
+
+        addNotOverlappingHolesToSolutionHolesList(possibleHoles);
+    }
+
+
+    private void determineBoundaryHolesIfExists() {
+        for (Plane p : bin.getPlanes()) {
+            for (Sphere s : bin.getSpheres()) {
+                if (possibleBoundaryCoordsExist(p, s)) {
+                    determineNextBoundaryHole(p, s);
+                }
+            }
+        }
+    }
+
+
+    private void determineNextBoundaryHole(Plane p, Sphere s) {
+        List<Hole> possibleHoles = new ArrayList<>();
+        int r1 = sphere.getR();
+        int r2 = s.getR();
+        if (p.getType() == Plane.Type.XZ) {
+            double y = abs(r1 - p.getPosition());
+            double sqrtValue = sqrt(pow(r1 + r2, 2) - pow(y - s.getCoords().getY(), 2));
+            double x1 = sqrtValue + s.getCoords().getX();
+            double x2 = -sqrtValue + s.getCoords().getX();
+            possibleHoles.add(new Hole(Arrays.asList(p, s), Coords.coords(x1, y)));
+            possibleHoles.add(new Hole(Arrays.asList(p, s), Coords.coords(x2, y)));
+        } else {
+            double x = abs(r1 - p.getPosition());
+            double sqrtValue = sqrt(pow(r1 + r2, 2) - pow(x - s.getCoords().getX(), 2));
+            double y1 = sqrtValue + s.getCoords().getY();
+            double y2 = -sqrtValue + s.getCoords().getY();
+            possibleHoles.add(new Hole(Arrays.asList(p, s), Coords.coords(x, y1)));
+            possibleHoles.add(new Hole(Arrays.asList(p, s), Coords.coords(x, y2)));
+        }
+        addNotOverlappingHolesToSolutionHolesList(possibleHoles);
+    }
+
+
+    private void determineHolesFromSpheresIfExist() {
         int numberOfSpheresInBin = bin.getSpheres().size();
         for (int i = 0; i < numberOfSpheresInBin - 1; i++) {
             Sphere s1 = bin.getSpheres().get(i);
             for (int j = i + 1; j < numberOfSpheresInBin; j++) {
                 Sphere s2 = bin.getSpheres().get(j);
-                determineNextHoleIfExist(sphere, s1, s2);
+                determineNextHoleFromSpheresIfExist(s1, s2);
             }
         }
-        return solutionHoles;
     }
 
 
-    private void determineNextHoleIfExist(Sphere sphere, Sphere s1, Sphere s2) {
-        if (possibleCoordsExist(sphere, s1, s2)) {
+    private void determineNextHoleFromSpheresIfExist(Sphere s1, Sphere s2) {
+        if (possibleCoordsFromSpheresExist(s1, s2)) {
             List<Hole> possibleHoles = determineAllPossibleHoles(s1, s2);
             addNotOverlappingHolesToSolutionHolesList(possibleHoles);
         }

@@ -9,23 +9,31 @@ public class Bin {
     private final int xSize;
     private final int ySize;
     private final int zSize;
+    private final List<Plane> planes;
     private final List<Sphere> spheres;
-    private final MinDistance minDistance;
 
     public Bin(int xSize, int ySize) {
-        this.xSize = xSize;
-        this.ySize = ySize;
-        this.zSize = 1;
-        spheres = new ArrayList<>();
-        minDistance = new ForEachMinDistance();
+        this(xSize, ySize, 1);
     }
 
     public Bin(int xSize, int ySize, int zSize) {
         this.xSize = xSize;
         this.ySize = ySize;
         this.zSize = zSize;
+        planes = new ArrayList<>();
         spheres = new ArrayList<>();
-        minDistance = new ForEachMinDistance();
+        addAllBinPlanes();
+    }
+
+    private void addAllBinPlanes() {
+        planes.add(new Plane(Plane.Type.XZ, 0));
+        planes.add(new Plane(Plane.Type.XZ, xSize));
+        planes.add(new Plane(Plane.Type.YZ, 0));
+        planes.add(new Plane(Plane.Type.YZ, ySize));
+        if (zSize > 1) {
+            planes.add(new Plane(Plane.Type.XY, 0));
+            planes.add(new Plane(Plane.Type.XY, zSize));
+        }
     }
 
     public boolean addSphere(Sphere sphere) {
@@ -34,10 +42,6 @@ public class Bin {
             return true;
         }
         return false;
-    }
-
-    public MinDistance getMinDistance() {
-        return minDistance;
     }
 
     public int getNumberOfCirclesPacked() {
@@ -58,5 +62,9 @@ public class Bin {
 
     public List<Sphere> getSpheres() {
         return Collections.unmodifiableList(spheres);
+    }
+
+    public List<Plane> getPlanes() {
+        return Collections.unmodifiableList(planes);
     }
 }

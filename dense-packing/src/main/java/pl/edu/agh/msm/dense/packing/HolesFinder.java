@@ -11,6 +11,7 @@ public abstract class HolesFinder {
     protected Bin bin;
     protected Sphere sphere;
     protected List<Hole> solutionHoles;
+    protected MinDistance minDistance;
 
 
     public static HolesFinder create(Bin bin) {
@@ -19,6 +20,11 @@ public abstract class HolesFinder {
         } else {
             return new HolesFinder2D(bin);
         }
+    }
+
+    protected HolesFinder(Bin bin) {
+        this.bin = bin;
+        minDistance = new ForEachMinDistance(bin);
     }
 
 
@@ -32,8 +38,13 @@ public abstract class HolesFinder {
     public abstract List<Hole> findForSphere(Sphere sphere);
 
 
-    protected boolean possibleCoordsExist(Sphere sphere, Sphere s1, Sphere s2) {
+    protected boolean possibleCoordsFromSpheresExist(Sphere s1, Sphere s2) {
         return 2 * sphere.getR() >= Utils.computeDistanceBetweenCircuits(s1, s2);
+    }
+
+
+    protected boolean possibleBoundaryCoordsExist(Plane p, Sphere s) {
+        return 2 * sphere.getR() >= p.computeDistance(s.getCoords());
     }
 
 
@@ -53,7 +64,7 @@ public abstract class HolesFinder {
 
 
     private void calculateHoleDegree(Hole hole) {
-        double minDistance = bin.getMinDistance().compute(bin, hole, sphere);
+        double minDistance = this.minDistance.compute(hole);
         hole.setDegree(1.0 - (sqrt(minDistance) / sphere.getR()));
     }
 

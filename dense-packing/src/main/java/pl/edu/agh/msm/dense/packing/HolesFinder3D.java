@@ -12,7 +12,7 @@ import static pl.edu.agh.msm.dense.packing.Coords.coords;
 public class HolesFinder3D extends HolesFinder {
 
     public HolesFinder3D(Bin bin) {
-        this.bin = bin;
+        super(bin);
     }
 
 
@@ -27,7 +27,7 @@ public class HolesFinder3D extends HolesFinder {
                 Sphere s2 = bin.getSpheres().get(j);
                 for (int k = j + 1; k < numberOfSpheresInBin; k++) {
                     Sphere s3 = bin.getSpheres().get(k);
-                    determineNextHoleIfExist(sphere, s1, s2, s3);
+                    determineNextHoleIfExist(s1, s2, s3);
                 }
             }
         }
@@ -35,8 +35,8 @@ public class HolesFinder3D extends HolesFinder {
     }
 
 
-    private void determineNextHoleIfExist(Sphere sphere, Sphere s1, Sphere s2, Sphere s3) {
-        if (possibleCoordsExist(sphere, s1, s2) && possibleCoordsExist(sphere, s2, s3) && possibleCoordsExist(sphere, s1, s3)) {
+    private void determineNextHoleIfExist(Sphere s1, Sphere s2, Sphere s3) {
+        if (possibleCoordsFromSpheresExist(s1, s2) && possibleCoordsFromSpheresExist(s2, s3) && possibleCoordsFromSpheresExist(s1, s3)) {
             List<Hole> possibleHoles = determineAllPossibleHoles(s1, s2, s3);
             addNotOverlappingHolesToSolutionHolesList(possibleHoles);
         }

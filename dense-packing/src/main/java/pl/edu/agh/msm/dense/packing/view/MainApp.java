@@ -13,10 +13,9 @@ public class MainApp extends Application {
     public static final int X_SIZE = 1000;
     public static final int Y_SIZE = 1000;
     public static final int Z_SIZE = 1;
-    public static final int MIN_R = 20;
-    public static final int MAX_R = 20;
+    public static final int MIN_R = 10;
+    public static final int MAX_R = 40;
 
-    private AnchorPane rootNode;
     private BorderPane borderPane;
 
     public static void main(String[] args) {
@@ -27,15 +26,13 @@ public class MainApp extends Application {
     public void start(Stage primaryStage) {
         borderPane = new BorderPane();
         borderPane.setStyle("-fx-border-color: BLACK;");
-        rootNode = new AnchorPane(borderPane);
+        AnchorPane rootNode = new AnchorPane(borderPane);
         rootNode.setPrefWidth(1000);
         rootNode.setPrefHeight(1000);
         Scene scene = new Scene(rootNode);
         primaryStage.setScene(scene);
         primaryStage.setTitle("Dense Packing");
-        primaryStage.setOnShown(event -> {
-            simulate();
-        });
+        primaryStage.setOnShown(event -> simulate());
         primaryStage.show();
     }
 

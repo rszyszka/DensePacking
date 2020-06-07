@@ -23,7 +23,7 @@ public class Sphere {
 
     @Override
     public String toString() {
-        return "Circle{" +
+        return "Sphere{" +
                 "r=" + r +
                 ", coords=" + coords +
                 '}';

@@ -34,7 +34,10 @@ public class SpaceFiller {
             for (int j = yStart; j <= yEnd; j++) {
                 for (int k = zStart; k <= zEnd; k++) {
                     if (isInCircle(i, j, k, sphere)) {
-                        space.getCells()[i][j][k].setId(1);
+                        try {
+                            space.getCells()[i][j][k].setId(1);
+                        } catch (ArrayIndexOutOfBoundsException ignored) {
+                        }
                         numberOfFilledCells++;
                     }
                 }

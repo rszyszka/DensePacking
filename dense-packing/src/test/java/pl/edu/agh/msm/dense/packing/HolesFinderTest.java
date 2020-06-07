@@ -39,9 +39,9 @@ class HolesFinderTest {
         Sphere sphere = new Sphere(5);
         List<Hole> holes = holesFinder.findForSphere(sphere);
 
-        assertEquals(1, holes.size());
-        double x = BigDecimal.valueOf(holes.get(0).getCoords().getX()).setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue();
-        double y = BigDecimal.valueOf(holes.get(0).getCoords().getY()).setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue();
+        assertEquals(6, holes.size());
+        double x = BigDecimal.valueOf(holes.get(5).getCoords().getX()).setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue();
+        double y = BigDecimal.valueOf(holes.get(5).getCoords().getY()).setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue();
         assertEquals(coords(7.938, 9.295), coords(x, y));
     }
 
@@ -55,9 +55,10 @@ class HolesFinderTest {
         Sphere sphere = new Sphere(5);
         List<Hole> holes = holesFinder.findForSphere(sphere);
 
-        assertEquals(1, holes.size());
-        double degree = BigDecimal.valueOf(holes.get(0).getDegree()).setScale(4, BigDecimal.ROUND_HALF_UP).doubleValue();
-        assertEquals(-1.9305, degree);
+        assertEquals(6, holes.size());
+        Hole hole = holesFinder.findHoleWithMaximumDegree();
+        double degree = BigDecimal.valueOf(hole.getDegree()).setScale(4, BigDecimal.ROUND_HALF_UP).doubleValue();
+        assertEquals(0.0, degree);
     }
 
 
@@ -81,7 +82,7 @@ class HolesFinderTest {
 
         holesFinder.findForSphere(new Sphere(5));
 
-        assertEquals(-0.8037829604081463, holesFinder.findHoleWithMaximumDegree().getDegree());
+        assertEquals(0.0, holesFinder.findHoleWithMaximumDegree().getDegree());
     }
 
 
@@ -95,10 +96,10 @@ class HolesFinderTest {
         bin.addSphere(c2);
 
         List<Hole> holes = holesFinder.findForSphere(new Sphere(5));
-        assertEquals(3, holes.size());
+        assertEquals(8, holes.size());
 
         holes = holesFinder.findForSphere(new Sphere(6));
-        assertEquals(3, holes.size());
+        assertEquals(8, holes.size());
     }
 
     @Test
