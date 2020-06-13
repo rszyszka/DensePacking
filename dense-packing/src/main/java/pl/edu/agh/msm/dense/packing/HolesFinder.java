@@ -1,5 +1,6 @@
 package pl.edu.agh.msm.dense.packing;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
@@ -35,7 +36,14 @@ public abstract class HolesFinder {
     }
 
 
-    public abstract List<Hole> findForSphere(Sphere sphere);
+    public List<Hole> findForSphere(Sphere sphere) {
+        this.sphere = sphere;
+        solutionHoles = new ArrayList<>();
+        determineCornerHolesIfExist();
+        determineBoundaryHolesIfExists();
+        determineHolesFromSpheresIfExist();
+        return solutionHoles;
+    }
 
 
     protected boolean possibleCoordsFromSpheresExist(Sphere s1, Sphere s2) {
@@ -68,4 +76,9 @@ public abstract class HolesFinder {
         hole.setDegree(1.0 - (sqrt(minDistance) / sphere.getR()));
     }
 
+    protected abstract void determineCornerHolesIfExist();
+
+    protected abstract void determineBoundaryHolesIfExists();
+
+    protected abstract void determineHolesFromSpheresIfExist();
 }

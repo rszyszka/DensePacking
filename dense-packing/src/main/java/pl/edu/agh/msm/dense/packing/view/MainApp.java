@@ -10,9 +10,9 @@ import pl.edu.agh.msm.dense.packing.*;
 
 
 public class MainApp extends Application {
-    public static final int X_SIZE = 1000;
-    public static final int Y_SIZE = 1000;
-    public static final int Z_SIZE = 1;
+    public static final int X_SIZE = 200;
+    public static final int Y_SIZE = 200;
+    public static final int Z_SIZE = 200;
     public static final int MIN_R = 10;
     public static final int MAX_R = 40;
 

@@ -17,17 +17,7 @@ public class HolesFinder2D extends HolesFinder {
 
 
     @Override
-    public List<Hole> findForSphere(Sphere sphere) {
-        this.sphere = sphere;
-        solutionHoles = new ArrayList<>();
-        determineCornerHolesIfExist();
-        determineBoundaryHolesIfExists();
-        determineHolesFromSpheresIfExist();
-        return solutionHoles;
-    }
-
-
-    private void determineCornerHolesIfExist() {
+    protected void determineCornerHolesIfExist() {
         Plane xz = bin.getPlanes().get(0);
         Plane yz = bin.getPlanes().get(1);
         int x1 = sphere.getR();
@@ -45,7 +35,8 @@ public class HolesFinder2D extends HolesFinder {
     }
 
 
-    private void determineBoundaryHolesIfExists() {
+    @Override
+    protected void determineBoundaryHolesIfExists() {
         for (Plane p : bin.getPlanes()) {
             for (Sphere s : bin.getSpheres()) {
                 if (possibleBoundaryCoordsExist(p, s)) {
@@ -79,7 +70,8 @@ public class HolesFinder2D extends HolesFinder {
     }
 
 
-    private void determineHolesFromSpheresIfExist() {
+    @Override
+    protected void determineHolesFromSpheresIfExist() {
         int numberOfSpheresInBin = bin.getSpheres().size();
         for (int i = 0; i < numberOfSpheresInBin - 1; i++) {
             Sphere s1 = bin.getSpheres().get(i);
