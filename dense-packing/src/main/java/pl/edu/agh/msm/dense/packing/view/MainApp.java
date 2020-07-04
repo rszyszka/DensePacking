@@ -6,15 +6,15 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import pl.edu.agh.msm.core.Space;
-import pl.edu.agh.msm.dense.packing.*;
+import pl.edu.agh.msm.dense.packing.model.*;
 
 
 public class MainApp extends Application {
     public static final int X_SIZE = 200;
     public static final int Y_SIZE = 200;
     public static final int Z_SIZE = 200;
-    public static final int MIN_R = 10;
-    public static final int MAX_R = 40;
+    public static final int MIN_R = 20;
+    public static final int MAX_R = 50;
 
     private BorderPane borderPane;
 

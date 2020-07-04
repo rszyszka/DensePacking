@@ -1,10 +1,10 @@
 package pl.edu.agh.msm.core;
 
 public class Space {
-    private int xSize;
-    private int ySize;
-    private int zSize;
-    private Cell[][][] cells;
+    private final int xSize;
+    private final int ySize;
+    private final int zSize;
+    private final Cell[][][] cells;
 
     public Space(int xSize, int ySize, int zSize) {
         this.xSize = xSize;

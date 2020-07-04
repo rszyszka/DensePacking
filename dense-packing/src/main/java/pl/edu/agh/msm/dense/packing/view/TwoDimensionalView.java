@@ -3,8 +3,8 @@ package pl.edu.agh.msm.dense.packing.view;
 import javafx.concurrent.Task;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.layout.BorderPane;
-import pl.edu.agh.msm.dense.packing.Bin;
-import pl.edu.agh.msm.dense.packing.GreedyPackingSimulation;
+import pl.edu.agh.msm.dense.packing.model.Bin;
+import pl.edu.agh.msm.dense.packing.model.GreedyPackingSimulation;
 
 import java.time.Instant;
 
@@ -57,7 +57,7 @@ public class TwoDimensionalView extends Task<Bin> {
     }
 
     @Override
-    protected Bin call() throws Exception {
+    protected Bin call() {
         performSimulationAndShowResults();
         return bin;
     }

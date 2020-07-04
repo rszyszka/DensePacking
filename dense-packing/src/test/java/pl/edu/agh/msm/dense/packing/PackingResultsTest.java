@@ -2,15 +2,17 @@ package pl.edu.agh.msm.dense.packing;
 
 import org.junit.jupiter.api.RepeatedTest;
 import pl.edu.agh.msm.core.Space;
+import pl.edu.agh.msm.dense.packing.model.*;
 
 import java.time.Instant;
 
+
 public class PackingResultsTest {
-    public static final int X_SIZE = 1000;
-    public static final int Y_SIZE = 1000;
-    public static final int Z_SIZE = 1;
+    public static final int X_SIZE = 200;
+    public static final int Y_SIZE = 200;
+    public static final int Z_SIZE = 200;
     public static final int MIN_R = 20;
-    public static final int MAX_R = 20;
+    public static final int MAX_R = 40;
 
     @RepeatedTest(10)
     public void generatePackingTest() {

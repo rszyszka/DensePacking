@@ -10,8 +10,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Sphere;
-import pl.edu.agh.msm.dense.packing.Bin;
-import pl.edu.agh.msm.dense.packing.GreedyPackingSimulation;
+import pl.edu.agh.msm.dense.packing.model.Bin;
+import pl.edu.agh.msm.dense.packing.model.GreedyPackingSimulation;
 
 import java.time.Instant;
 
@@ -71,7 +71,7 @@ public class ThreeDimensionalView extends Task<Bin> {
     }
 
     @Override
-    protected Bin call() throws Exception {
+    protected Bin call() {
         performSimulationAndShowResults();
         return bin;
     }
