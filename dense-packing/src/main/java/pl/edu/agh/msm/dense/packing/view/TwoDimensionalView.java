@@ -38,7 +38,7 @@ public class TwoDimensionalView extends Task<Bin> {
     private void drawUsingVoxelSpace() {
         for (int i = 0; i < simulation.getSpace().getXSize(); i++) {
             for (int j = 0; j < simulation.getSpace().getYSize(); j++) {
-                if (simulation.getSpace().getCells()[i][j][0].getId() == 1) {
+                if (simulation.getSpace().getCells()[i][j][0].getId() >= 1) {
                     canvas.getGraphicsContext2D().fillRect(i, j, 1, 1);
                 }
             }

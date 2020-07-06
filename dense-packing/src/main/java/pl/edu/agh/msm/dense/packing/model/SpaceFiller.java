@@ -18,11 +18,15 @@ public class SpaceFiller {
 
 
     public void fillWithAllCircles(Bin bin) {
-        bin.getSpheres().forEach(this::fillWithCircle);
+        int id = 1;
+        for (Sphere sphere : bin.getSpheres()) {
+            fillWithCircle(sphere, id);
+            id++;
+        }
     }
 
 
-    public void fillWithCircle(Sphere sphere) {
+    public void fillWithCircle(Sphere sphere, int id) {
         int xStart = (int) floor(sphere.getCoords().getX()) - sphere.getR();
         int xEnd = (int) ceil(sphere.getCoords().getX()) + sphere.getR();
         int yStart = (int) floor(sphere.getCoords().getY()) - sphere.getR();
@@ -35,7 +39,7 @@ public class SpaceFiller {
                 for (int k = zStart; k <= zEnd; k++) {
                     if (isInCircle(i, j, k, sphere)) {
                         try {
-                            space.getCells()[i][j][k].setId(1);
+                            space.getCells()[i][j][k].setId(id);
                         } catch (ArrayIndexOutOfBoundsException ignored) {
                         }
                         numberOfFilledCells++;

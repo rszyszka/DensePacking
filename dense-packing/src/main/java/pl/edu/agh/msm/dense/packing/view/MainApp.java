@@ -13,8 +13,8 @@ public class MainApp extends Application {
     public static final int X_SIZE = 200;
     public static final int Y_SIZE = 200;
     public static final int Z_SIZE = 200;
-    public static final int MIN_R = 20;
-    public static final int MAX_R = 50;
+    public static final int MIN_R = 10;
+    public static final int MAX_R = 40;
 
     private BorderPane borderPane;
 
