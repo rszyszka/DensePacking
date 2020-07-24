@@ -6,8 +6,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import static pl.edu.agh.msm.dense.packing.model.Coords.coords;
 
@@ -54,6 +53,7 @@ class GreedyPackerTest {
         boolean packed = packer.tryToPackNextCircle();
 
         assertTrue(packed);
+        assertEquals(1, packer.getBin().getSpheres().size());
         verify(sphereGenerator).generateNewSphere();
         verify(holesFinder).findForSphere(any());
         verify(holesFinder).findHoleWithMaximumDegree();

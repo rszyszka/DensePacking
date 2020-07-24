@@ -1,10 +1,8 @@
 package pl.edu.agh.msm.dense.packing.model;
 
-
-import java.util.List;
-
 import static java.lang.Math.pow;
 import static java.lang.Math.sqrt;
+
 
 public class TangentialCirclesInitialConfiguration extends InitialConfiguration {
 
@@ -17,23 +15,6 @@ public class TangentialCirclesInitialConfiguration extends InitialConfiguration 
     public void init() {
         addNewCircleInUpperLeftCorner();
         addNewCircleNextToFirstOne();
-        addThirdTangentSphereIn3dCase();
-    }
-
-    private void addThirdTangentSphereIn3dCase() {
-        if (bin.getZSize() > 1) {
-            Sphere sphere = sphereGenerator.generateNewSphere();
-            HolesFinder3D holesFinder = new HolesFinder3D(bin);
-            List<Hole> holes = holesFinder.findForSphere(sphere);
-            if (holes.isEmpty()) {
-                if (sphereGenerator.setLowerRadiusIfPossible(sphere.getR())) {
-                    addThirdTangentSphereIn3dCase();
-                }
-            }
-            sphere.setCoords(holesFinder.findHoleWithMaximumDegree().getCoords());
-            bin.addSphere(sphere);
-            sphereGenerator.resetMaxRadius();
-        }
     }
 
 

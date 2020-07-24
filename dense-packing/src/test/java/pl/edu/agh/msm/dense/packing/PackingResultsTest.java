@@ -8,16 +8,16 @@ import java.time.Instant;
 
 
 public class PackingResultsTest {
-    public static final int X_SIZE = 1000;
-    public static final int Y_SIZE = 1000;
-    public static final int Z_SIZE = 1;
+    public static final int X_SIZE = 200;
+    public static final int Y_SIZE = 200;
+    public static final int Z_SIZE = 200;
     public static final int MIN_R = 20;
-    public static final int MAX_R = 40;
+    public static final int MAX_R = 20;
 
     @RepeatedTest(10)
     public void generatePackingTest() {
         Bin bin = new Bin(X_SIZE, Y_SIZE, Z_SIZE);
-        SphereGenerator sphereGenerator = new RandomSphereGenerator(MIN_R, MAX_R);
+        SphereGenerator sphereGenerator = new LargestSphereGenerator(MIN_R, MAX_R);
         InitialConfiguration initialConfiguration = new TangentialCirclesInitialConfiguration(bin, sphereGenerator);
         HolesFinder holesFinder = HolesFinder.create(bin);
 

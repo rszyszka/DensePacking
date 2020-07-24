@@ -2,18 +2,11 @@ package pl.edu.agh.msm.dense.packing.model;
 
 import java.util.Random;
 
-public class RandomSphereGenerator implements SphereGenerator {
-    private final int minRadius;
-    private int maxRadius;
-    private final int originMaxRadius;
-
+public class RandomSphereGenerator extends AbstractSphereGenerator {
 
     public RandomSphereGenerator(int minRadius, int maxRadius) {
-        this.minRadius = minRadius;
-        this.maxRadius = maxRadius;
-        originMaxRadius = maxRadius;
+        super(minRadius, maxRadius);
     }
-
 
     @Override
     public Sphere generateNewSphere() {
@@ -22,18 +15,4 @@ public class RandomSphereGenerator implements SphereGenerator {
         return new Sphere(radius);
     }
 
-
-    @Override
-    public boolean setLowerRadiusIfPossible(int currentCircleRadius) {
-        if (currentCircleRadius <= minRadius) {
-            return false;
-        }
-        maxRadius = currentCircleRadius - 1;
-        return true;
-    }
-
-    @Override
-    public void resetMaxRadius() {
-        maxRadius = originMaxRadius;
-    }
 }

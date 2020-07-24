@@ -21,7 +21,7 @@ public class HolesFinder3DTest {
         bin.addSphere(s1);
         bin.addSphere(s2);
         bin.addSphere(s3);
-        HolesFinder3D holesFinder = new HolesFinder3D(bin);
+        HolesFinder holesFinder = HolesFinder.create(bin);
 
         Sphere newSphere = new Sphere(5);
         List<Hole> holes = holesFinder.findForSphere(newSphere);
@@ -43,7 +43,7 @@ public class HolesFinder3DTest {
         Bin bin = new Bin(100, 100, 100);
         bin.addSphere(s1);
         bin.addSphere(s2);
-        HolesFinder3D holesFinder = new HolesFinder3D(bin);
+        HolesFinder holesFinder = HolesFinder.create(bin);
 
         Sphere newSphere = new Sphere(1);
         List<Hole> holes = holesFinder.findForSphere(newSphere);
@@ -67,7 +67,7 @@ public class HolesFinder3DTest {
         Bin bin = new Bin(100, 100, 100);
         bin.addSphere(s1);
         bin.addSphere(s2);
-        HolesFinder3D holesFinder = new HolesFinder3D(bin);
+        HolesFinder holesFinder = HolesFinder.create(bin);
 
         Sphere newSphere = new Sphere(1);
         List<Hole> holes = holesFinder.findForSphere(newSphere);
@@ -91,7 +91,7 @@ public class HolesFinder3DTest {
         Bin bin = new Bin(100, 100, 100);
         bin.addSphere(s1);
         bin.addSphere(s2);
-        HolesFinder3D holesFinder = new HolesFinder3D(bin);
+        HolesFinder holesFinder = HolesFinder.create(bin);
 
         Sphere newSphere = new Sphere(1);
         List<Hole> holes = holesFinder.findForSphere(newSphere);
