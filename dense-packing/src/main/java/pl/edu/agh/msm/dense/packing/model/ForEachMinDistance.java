@@ -16,7 +16,7 @@ public class ForEachMinDistance implements MinDistance {
             if (hole.getParentObjects().contains(sphere)) {
                 continue;
             }
-            double currentDistance = Utils.computeSquaredDistance(sphere.getCoords(), hole.getCoords());
+            double currentDistance = Utils.computeDistanceBetweenCircuits(sphere, hole);
             if (currentDistance < minDistance) {
                 minDistance = currentDistance;
             }
@@ -31,7 +31,7 @@ public class ForEachMinDistance implements MinDistance {
             if (hole.getParentObjects().contains(plane)) {
                 continue;
             }
-            double currentDistance = plane.computeSquaredDistance(hole.getCoords());
+            double currentDistance = plane.computeDistance(hole);
             if (currentDistance < minDistance) {
                 minDistance = currentDistance;
             }

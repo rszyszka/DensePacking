@@ -5,12 +5,12 @@ import java.util.Comparator;
 import java.util.List;
 
 import static java.lang.Math.pow;
-import static java.lang.Math.sqrt;
 import static pl.edu.agh.msm.dense.packing.model.Coords.coords;
 
 
 public abstract class HolesFinder {
 
+    public static double PENALTY_VALUE = 0.1;
     protected Bin bin;
     protected Sphere sphere;
     protected List<Hole> solutionHoles;
@@ -54,7 +54,7 @@ public abstract class HolesFinder {
 
 
     protected boolean possibleBoundaryCoordsExist(Plane p, Sphere s) {
-        return 2 * sphere.getR() >= p.computeDistance(s.getCoords());
+        return 2 * sphere.getR() >= p.computeDistance(s);
     }
 
 
@@ -75,14 +75,27 @@ public abstract class HolesFinder {
 
     private void calculateHoleDegree(Hole hole) {
         double minDistance = this.minDistance.compute(hole);
-        hole.setDegree(1.0 - (sqrt(minDistance) / sphere.getR()));
+        boolean penalty = false;
+        for (Object o : hole.getParentObjects()) {
+            if (o instanceof Plane) {
+                penalty = true;
+                break;
+            }
+        }
+
+        double degree = 1.0 - (minDistance / sphere.getR());
+        hole.setDegree(penalty ? degree - PENALTY_VALUE : degree);
     }
+
 
     protected abstract void determineCornerHolesIfExist();
 
+
     protected abstract void determineBoundaryHolesIfExists();
 
+
     protected abstract void determineHolesFromSpheresIfExist();
+
 
     protected Coords determineAuxiliaryCoords(Sphere s1, Sphere s2, double distanceBetweenMiddles) {
         int r1 = sphere.getR() + s1.getR();
@@ -92,9 +105,11 @@ public abstract class HolesFinder {
         return coords(auxiliaryX, auxiliaryY, auxiliaryZ);
     }
 
+
     protected double determineCosA(Sphere c1, Sphere c2, double distanceBetweenMiddles) {
         int r1 = sphere.getR() + c1.getR();
         int r2 = sphere.getR() + c2.getR();
         return (pow(distanceBetweenMiddles, 2) + pow(r1, 2) - pow(r2, 2)) / (2 * distanceBetweenMiddles * r1);
     }
+
 }

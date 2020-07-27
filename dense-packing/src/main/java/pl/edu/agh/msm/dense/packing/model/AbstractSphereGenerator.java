@@ -2,7 +2,7 @@ package pl.edu.agh.msm.dense.packing.model;
 
 public abstract class AbstractSphereGenerator implements SphereGenerator {
     protected final int minRadius;
-    protected final int originMaxRadius;
+    protected int originMaxRadius;
     protected int maxRadius;
 
     public AbstractSphereGenerator(int minRadius, int maxRadius) {

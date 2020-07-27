@@ -52,8 +52,8 @@ public class BoundaryHoleFinderHelper3D {
         double z1 = sqrtValue + s.getCoords().getZ();
         double z2 = -sqrtValue + s.getCoords().getZ();
         List<Hole> possibleHoles = new ArrayList<>();
-        possibleHoles.add(new Hole(Arrays.asList(p1, p2, s), coords(x, y, z1)));
-        possibleHoles.add(new Hole(Arrays.asList(p1, p2, s), coords(x, y, z2)));
+        possibleHoles.add(new Hole(Arrays.asList(p1, p2, s), coords(x, y, z1), sphere.getR()));
+        possibleHoles.add(new Hole(Arrays.asList(p1, p2, s), coords(x, y, z2), sphere.getR()));
         return possibleHoles;
     }
 
@@ -67,8 +67,8 @@ public class BoundaryHoleFinderHelper3D {
         double y1 = sqrtValue + s.getCoords().getY();
         double y2 = -sqrtValue + s.getCoords().getY();
         List<Hole> possibleHoles = new ArrayList<>();
-        possibleHoles.add(new Hole(Arrays.asList(p1, p2, s), coords(x, y1, z)));
-        possibleHoles.add(new Hole(Arrays.asList(p1, p2, s), coords(x, y2, z)));
+        possibleHoles.add(new Hole(Arrays.asList(p1, p2, s), coords(x, y1, z), sphere.getR()));
+        possibleHoles.add(new Hole(Arrays.asList(p1, p2, s), coords(x, y2, z), sphere.getR()));
         return possibleHoles;
     }
 
@@ -82,8 +82,8 @@ public class BoundaryHoleFinderHelper3D {
         double x1 = sqrtValue + s.getCoords().getX();
         double x2 = -sqrtValue + s.getCoords().getX();
         List<Hole> possibleHoles = new ArrayList<>();
-        possibleHoles.add(new Hole(Arrays.asList(p1, p2, s), coords(x1, y, z)));
-        possibleHoles.add(new Hole(Arrays.asList(p1, p2, s), coords(x2, y, z)));
+        possibleHoles.add(new Hole(Arrays.asList(p1, p2, s), coords(x1, y, z), sphere.getR()));
+        possibleHoles.add(new Hole(Arrays.asList(p1, p2, s), coords(x2, y, z), sphere.getR()));
         return possibleHoles;
     }
 
@@ -117,8 +117,8 @@ public class BoundaryHoleFinderHelper3D {
         double z = abs(sphere.getR() - p.getPosition());
 
         List<Hole> possibleHoles = new ArrayList<>();
-        possibleHoles.add(new Hole(Arrays.asList(p, s1, s2), coords(x1, y1, z)));
-        possibleHoles.add(new Hole(Arrays.asList(p, s1, s2), coords(x2, y2, z)));
+        possibleHoles.add(new Hole(Arrays.asList(p, s1, s2), coords(x1, y1, z), sphere.getR()));
+        possibleHoles.add(new Hole(Arrays.asList(p, s1, s2), coords(x2, y2, z), sphere.getR()));
         return possibleHoles;
     }
 
@@ -141,8 +141,8 @@ public class BoundaryHoleFinderHelper3D {
         double y = abs(sphere.getR() - p.getPosition());
 
         List<Hole> possibleHoles = new ArrayList<>();
-        possibleHoles.add(new Hole(Arrays.asList(p, s1, s2), coords(x1, y, z1)));
-        possibleHoles.add(new Hole(Arrays.asList(p, s1, s2), coords(x2, y, z2)));
+        possibleHoles.add(new Hole(Arrays.asList(p, s1, s2), coords(x1, y, z1), sphere.getR()));
+        possibleHoles.add(new Hole(Arrays.asList(p, s1, s2), coords(x2, y, z2), sphere.getR()));
         return possibleHoles;
     }
 
@@ -165,8 +165,8 @@ public class BoundaryHoleFinderHelper3D {
         double x = abs(sphere.getR() - p.getPosition());
 
         List<Hole> possibleHoles = new ArrayList<>();
-        possibleHoles.add(new Hole(Arrays.asList(p, s1, s2), coords(x, y1, z1)));
-        possibleHoles.add(new Hole(Arrays.asList(p, s1, s2), coords(x, y2, z2)));
+        possibleHoles.add(new Hole(Arrays.asList(p, s1, s2), coords(x, y1, z1), sphere.getR()));
+        possibleHoles.add(new Hole(Arrays.asList(p, s1, s2), coords(x, y2, z2), sphere.getR()));
         return possibleHoles;
     }
 }

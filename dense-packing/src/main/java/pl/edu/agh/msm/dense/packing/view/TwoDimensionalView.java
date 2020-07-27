@@ -2,9 +2,12 @@ package pl.edu.agh.msm.dense.packing.view;
 
 import javafx.concurrent.Task;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.paint.Color;
 import pl.edu.agh.msm.dense.packing.model.Bin;
 import pl.edu.agh.msm.dense.packing.model.GreedyPackingSimulation;
+import pl.edu.agh.msm.dense.packing.model.Sphere;
 
 import java.time.Instant;
 
@@ -24,14 +27,16 @@ public class TwoDimensionalView extends Task<Bin> {
 
     public void performSimulationAndShowResults() {
         long startTime = Instant.now().toEpochMilli();
-        simulation.simulateContinuously();
+        drawSphere(bin.getSpheres().get(0));
+        drawSphere(bin.getSpheres().get(1));
+        while (simulation.performStep()) {
+            drawSphere(bin.getSpheres().get(bin.getSpheres().size() - 1));
+        }
         long endTime = Instant.now().toEpochMilli();
 
         System.out.println("Time elapsed: " + (endTime - startTime) + " milliseconds");
         System.out.println("Voxel density level: " + simulation.computeVoxelDensityLevel());
         System.out.println("Math density level: " + simulation.computeMathDensityLevel());
-
-        drawUsingStandardOvalFilling();
     }
 
 
@@ -47,13 +52,19 @@ public class TwoDimensionalView extends Task<Bin> {
 
 
     private void drawUsingStandardOvalFilling() {
-        bin.getSpheres().forEach(circle -> {
-            double x = circle.getCoords().getX();
-            double y = circle.getCoords().getY();
-            int r = circle.getR();
-            int d = 2 * r;
-            canvas.getGraphicsContext2D().fillOval(x - r, y - r, d, d);
-        });
+        bin.getSpheres().forEach(this::drawSphere);
+    }
+
+    private void drawSphere(Sphere sphere) {
+        double x = sphere.getCoords().getX();
+        double y = sphere.getCoords().getY();
+        int r = sphere.getR();
+        int d = 2 * r;
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+        gc.setFill(Color.color(Math.random(), Math.random(), Math.random()));
+        gc.fillOval(x - r, y - r, d, d);
+        gc.setStroke(Color.BLACK);
+        gc.strokeOval(x - r, y - r, d, d);
     }
 
     @Override

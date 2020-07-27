@@ -21,9 +21,12 @@ public class HolesFinder3D extends HolesFinder {
 
     @Override
     protected void determineCornerHolesIfExist() {
-        Plane xz = bin.getPlanes().get(0);
-        Plane yz = bin.getPlanes().get(1);
-        Plane xy = bin.getPlanes().get(2);
+        Plane yz1 = bin.getPlanes().get(0);
+        Plane yz2 = bin.getPlanes().get(1);
+        Plane xz1 = bin.getPlanes().get(2);
+        Plane xz2 = bin.getPlanes().get(3);
+        Plane xy1 = bin.getPlanes().get(4);
+        Plane xy2 = bin.getPlanes().get(5);
         int x1 = sphere.getR();
         int y1 = sphere.getR();
         int z1 = sphere.getR();
@@ -32,14 +35,14 @@ public class HolesFinder3D extends HolesFinder {
         int z2 = bin.getYSize() - z1;
 
         List<Hole> possibleHoles = new ArrayList<>();
-        possibleHoles.add(new Hole(Arrays.asList(xz, yz, xy), coords(x1, y1, z1)));
-        possibleHoles.add(new Hole(Arrays.asList(xz, yz, xy), coords(x1, y1, z2)));
-        possibleHoles.add(new Hole(Arrays.asList(xz, yz, xy), coords(x1, y2, z1)));
-        possibleHoles.add(new Hole(Arrays.asList(xz, yz, xy), coords(x1, y2, z2)));
-        possibleHoles.add(new Hole(Arrays.asList(xz, yz, xy), coords(x2, y1, z1)));
-        possibleHoles.add(new Hole(Arrays.asList(xz, yz, xy), coords(x2, y1, z2)));
-        possibleHoles.add(new Hole(Arrays.asList(xz, yz, xy), coords(x2, y2, z1)));
-        possibleHoles.add(new Hole(Arrays.asList(xz, yz, xy), coords(x2, y2, z2)));
+        possibleHoles.add(new Hole(Arrays.asList(yz1, xz1, xy1), coords(x1, y1, z1), sphere.getR()));
+        possibleHoles.add(new Hole(Arrays.asList(yz1, xz1, xy2), coords(x1, y1, z2), sphere.getR()));
+        possibleHoles.add(new Hole(Arrays.asList(yz1, xz2, xy1), coords(x1, y2, z1), sphere.getR()));
+        possibleHoles.add(new Hole(Arrays.asList(yz1, xz2, xy2), coords(x1, y2, z2), sphere.getR()));
+        possibleHoles.add(new Hole(Arrays.asList(yz2, xz1, xy1), coords(x2, y1, z1), sphere.getR()));
+        possibleHoles.add(new Hole(Arrays.asList(yz2, xz1, xy2), coords(x2, y1, z2), sphere.getR()));
+        possibleHoles.add(new Hole(Arrays.asList(yz2, xz2, xy1), coords(x2, y2, z1), sphere.getR()));
+        possibleHoles.add(new Hole(Arrays.asList(yz2, xz2, xy2), coords(x2, y2, z2), sphere.getR()));
 
         addNotOverlappingHolesToSolutionHolesList(possibleHoles);
     }
@@ -150,8 +153,8 @@ public class HolesFinder3D extends HolesFinder {
         double z2 = s1.getCoords().getZ() + x * e_x.getZ() + y * e_y.getZ() - z * e_z.getZ();
 
         List<Hole> possibleHoles = new ArrayList<>();
-        possibleHoles.add(new Hole(Arrays.asList(s1, s2, s3), coords(x1, y1, z1)));
-        possibleHoles.add(new Hole(Arrays.asList(s1, s2, s3), coords(x2, y2, z2)));
+        possibleHoles.add(new Hole(Arrays.asList(s1, s2, s3), coords(x1, y1, z1), sphere.getR()));
+        possibleHoles.add(new Hole(Arrays.asList(s1, s2, s3), coords(x2, y2, z2), sphere.getR()));
 
         return possibleHoles;
     }

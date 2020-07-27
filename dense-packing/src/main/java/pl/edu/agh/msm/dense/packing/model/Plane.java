@@ -9,18 +9,14 @@ public class Plane {
         this.position = position;
     }
 
-    public double computeDistance(Coords coords) {
-        return Math.sqrt(computeSquaredDistance(coords));
-    }
-
-    public double computeSquaredDistance(Coords coords) {
+    public double computeDistance(Sphere s) {
         switch (type) {
             case YZ:
-                return Math.pow(coords.getX() - position, 2);
+                return Math.abs(s.coords.getX() - position) - s.getR();
             case XZ:
-                return Math.pow(coords.getY() - position, 2);
+                return Math.abs(s.coords.getY() - position) - s.getR();
             default:
-                return Math.pow(coords.getZ() - position, 2);
+                return Math.abs(s.coords.getZ() - position) - s.getR();
         }
     }
 
@@ -34,5 +30,13 @@ public class Plane {
 
     enum Type {
         YZ, XZ, XY
+    }
+
+    @Override
+    public String toString() {
+        return "Plane{" +
+                "type=" + type +
+                ", position=" + position +
+                '}';
     }
 }

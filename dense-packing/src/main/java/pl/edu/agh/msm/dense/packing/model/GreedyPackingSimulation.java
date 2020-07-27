@@ -21,7 +21,7 @@ public class GreedyPackingSimulation extends Simulation {
 
 
     @Override
-    protected boolean performStep() {
+    public boolean performStep() {
         boolean packed = packer.tryToPackNextCircle();
         if (!packed) {
             SpaceFiller filler = new SpaceFiller(space);

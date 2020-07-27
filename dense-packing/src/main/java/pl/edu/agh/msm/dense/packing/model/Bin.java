@@ -26,10 +26,10 @@ public class Bin {
     }
 
     private void addAllBinPlanes() {
-        planes.add(new Plane(Plane.Type.XZ, 0));
-        planes.add(new Plane(Plane.Type.XZ, xSize));
         planes.add(new Plane(Plane.Type.YZ, 0));
-        planes.add(new Plane(Plane.Type.YZ, ySize));
+        planes.add(new Plane(Plane.Type.YZ, xSize));
+        planes.add(new Plane(Plane.Type.XZ, 0));
+        planes.add(new Plane(Plane.Type.XZ, ySize));
         if (zSize > 1) {
             planes.add(new Plane(Plane.Type.XY, 0));
             planes.add(new Plane(Plane.Type.XY, zSize));

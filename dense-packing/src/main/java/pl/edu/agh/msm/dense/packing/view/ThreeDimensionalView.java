@@ -57,17 +57,19 @@ public class ThreeDimensionalView extends Task<Bin> {
     }
 
     private void drawUsingStandardOvalFilling() {
-        bin.getSpheres().forEach(sphere -> {
-            Sphere element = new Sphere(sphere.getR());
-            element.setTranslateX(sphere.getCoords().getX() - xTranslate);
-            element.setTranslateY(sphere.getCoords().getY() - yTranslate);
-            element.setTranslateZ(sphere.getCoords().getZ() - zTranslate);
+        bin.getSpheres().forEach(this::drawSphere);
+    }
 
-            PhongMaterial material = new PhongMaterial();
-            material.setDiffuseColor(Color.GOLD);
-            element.setMaterial(material);
-            group.getChildren().add(element);
-        });
+    private void drawSphere(pl.edu.agh.msm.dense.packing.model.Sphere sphere) {
+        Sphere element = new Sphere(sphere.getR());
+        element.setTranslateX(sphere.getCoords().getX() - xTranslate);
+        element.setTranslateY(sphere.getCoords().getY() - yTranslate);
+        element.setTranslateZ(sphere.getCoords().getZ() - zTranslate);
+
+        PhongMaterial material = new PhongMaterial();
+        material.setDiffuseColor(Color.GOLD);
+        element.setMaterial(material);
+        group.getChildren().add(element);
     }
 
     @Override

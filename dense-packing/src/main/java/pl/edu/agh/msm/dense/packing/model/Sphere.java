@@ -1,8 +1,8 @@
 package pl.edu.agh.msm.dense.packing.model;
 
 public class Sphere {
-    private final int r;
-    private Coords coords;
+    protected final int r;
+    protected Coords coords;
 
     public Sphere(int r) {
         this.r = r;
@@ -19,5 +19,13 @@ public class Sphere {
 
     public void setCoords(Coords coords) {
         this.coords = coords;
+    }
+
+    @Override
+    public String toString() {
+        return "Sphere{" +
+                "r=" + r +
+                ", coords=" + coords +
+                '}';
     }
 }

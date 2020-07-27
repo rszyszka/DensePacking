@@ -49,4 +49,13 @@ public class Coords {
     public int hashCode() {
         return Objects.hash(x, y, z);
     }
+
+    @Override
+    public String toString() {
+        return "Coords{" +
+                "x=" + x +
+                ", y=" + y +
+                ", z=" + z +
+                '}';
+    }
 }

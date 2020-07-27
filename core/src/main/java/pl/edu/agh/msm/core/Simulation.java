@@ -18,7 +18,7 @@ public abstract class Simulation {
     }
 
 
-    protected abstract boolean performStep();
+    public abstract boolean performStep();
 
 
     public void simulateContinuously() {

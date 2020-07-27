@@ -13,8 +13,13 @@ public class MainApp extends Application {
     public static final int X_SIZE = 200;
     public static final int Y_SIZE = 200;
     public static final int Z_SIZE = 200;
-    public static final int MIN_R = 20;
-    public static final int MAX_R = 20;
+
+//    public static final int X_SIZE = 200;
+//    public static final int Y_SIZE = 200;
+//    public static final int Z_SIZE = 200;
+
+    public static final int MIN_R = 40;
+    public static final int MAX_R = 40;
 
     private BorderPane borderPane;
 
@@ -42,6 +47,7 @@ public class MainApp extends Application {
         SphereGenerator sphereGenerator = new LargestSphereGenerator(MIN_R, MAX_R);
         InitialConfiguration initialConfiguration = new TangentialCirclesInitialConfiguration(bin, sphereGenerator);
         HolesFinder holesFinder = HolesFinder.create(bin);
+        HolesFinder.PENALTY_VALUE = 0.18;
 
         GreedyPacker packer = new GreedyPacker(initialConfiguration, holesFinder);
         Space space = new Space(X_SIZE, Y_SIZE, Z_SIZE);
