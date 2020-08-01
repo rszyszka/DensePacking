@@ -1,7 +1,5 @@
 package pl.edu.agh.msm.dense.packing.view;
 
-import javafx.application.Platform;
-import javafx.concurrent.Task;
 import javafx.scene.Group;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.SceneAntialiasing;
@@ -11,70 +9,75 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Sphere;
 import pl.edu.agh.msm.dense.packing.model.Bin;
-import pl.edu.agh.msm.dense.packing.model.GreedyPackingSimulation;
 
 import java.time.Instant;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-public class ThreeDimensionalView extends Task<Bin> {
+public class ThreeDimensionalView implements View {
+    private static long lastDrawingTime = 0;
+
     private final int xTranslate;
     private final int yTranslate;
     private final int zTranslate;
-    private final GreedyPackingSimulation simulation;
-    private final Bin bin;
     private final Group group;
+    private final Bin bin;
+    private final AxisBox axisBox;
+    private final Map<pl.edu.agh.msm.dense.packing.model.Sphere, Color> sphereColorMap;
 
-    public ThreeDimensionalView(BorderPane borderPane, GreedyPackingSimulation simulation, Bin bin) {
-        this.simulation = simulation;
+    public ThreeDimensionalView(BorderPane borderPane, Bin bin) {
         this.bin = bin;
-
-        xTranslate = bin.getXSize() >> 1;
-        yTranslate = bin.getYSize() >> 1;
-        zTranslate = bin.getZSize() >> 1;
+        int xSize = bin.getXSize();
+        int ySize = bin.getYSize();
+        int zSize = bin.getZSize();
+        xTranslate = xSize >> 1;
+        yTranslate = ySize >> 1;
+        zTranslate = zSize >> 1;
 
         group = new Group();
         group.setTranslateX(500);
         group.setTranslateY(500);
         group.setTranslateZ(-1000);
+        sphereColorMap = new HashMap<>();
 
         SubScene scene = new SubScene(group, 1000, 1000, true, SceneAntialiasing.BALANCED);
         scene.setFill(Color.SILVER);
         scene.setCamera(new PerspectiveCamera());
         GroupMouseControl.init(borderPane, group);
-        group.getChildren().add(new AxisBox(bin.getXSize(), bin.getYSize(), bin.getZSize()));
+        axisBox = new AxisBox(xSize, ySize, zSize);
+        group.getChildren().add(axisBox);
         borderPane.setCenter(scene);
     }
 
-    public void performSimulationAndShowResults() {
-        long startTime = Instant.now().toEpochMilli();
-        simulation.simulateContinuously();
-        long endTime = Instant.now().toEpochMilli();
-
-        System.out.println("Time elapsed: " + (endTime - startTime) + " milliseconds");
-        System.out.println("Voxel density level: " + simulation.computeVoxelDensityLevel());
-        System.out.println("Math density level: " + simulation.computeMathDensityLevel());
-
-        Platform.runLater(this::drawUsingStandardOvalFilling);
+    @Override
+    public void drawUsingStandardOvalFilling(List<pl.edu.agh.msm.dense.packing.model.Sphere> spheres) {
+        long currentTime = Instant.now().toEpochMilli();
+        if (currentTime - lastDrawingTime >= 16) {
+            group.getChildren().clear();
+            group.getChildren().add(axisBox);
+            spheres.forEach(this::drawSphere);
+            lastDrawingTime = Instant.now().toEpochMilli();
+        }
     }
 
-    private void drawUsingStandardOvalFilling() {
-        bin.getSpheres().forEach(this::drawSphere);
-    }
-
-    private void drawSphere(pl.edu.agh.msm.dense.packing.model.Sphere sphere) {
+    @Override
+    public void drawSphere(pl.edu.agh.msm.dense.packing.model.Sphere sphere) {
         Sphere element = new Sphere(sphere.getR());
         element.setTranslateX(sphere.getCoords().getX() - xTranslate);
         element.setTranslateY(sphere.getCoords().getY() - yTranslate);
         element.setTranslateZ(sphere.getCoords().getZ() - zTranslate);
 
+        Color color = sphereColorMap.get(sphere);
+        if (color == null) {
+            color = Color.color(Math.random(), Math.random(), Math.random());
+            sphereColorMap.put(sphere, color);
+        }
+
         PhongMaterial material = new PhongMaterial();
-        material.setDiffuseColor(Color.GOLD);
+        material.setDiffuseColor(color);
         element.setMaterial(material);
         group.getChildren().add(element);
     }
 
-    @Override
-    protected Bin call() {
-        performSimulationAndShowResults();
-        return bin;
-    }
 }

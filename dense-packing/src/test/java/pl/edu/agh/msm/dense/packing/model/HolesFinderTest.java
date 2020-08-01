@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 import static java.lang.Math.pow;
@@ -40,8 +39,8 @@ class HolesFinderTest {
         List<Hole> holes = holesFinder.findForSphere(sphere);
 
         assertEquals(6, holes.size());
-        double x = BigDecimal.valueOf(holes.get(5).getCoords().getX()).setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue();
-        double y = BigDecimal.valueOf(holes.get(5).getCoords().getY()).setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue();
+        double x = Utils.roundUp(holes.get(5).getCoords().getX(), 3);
+        double y = Utils.roundUp(holes.get(5).getCoords().getY(), 3);
         assertEquals(coords(7.938, 9.295), coords(x, y));
     }
 
@@ -57,8 +56,8 @@ class HolesFinderTest {
 
         assertEquals(6, holes.size());
         Hole hole = holesFinder.findHoleWithMaximumDegree();
-        double degree = BigDecimal.valueOf(hole.getDegree()).setScale(4, BigDecimal.ROUND_HALF_UP).doubleValue();
-        assertEquals(0.0, degree);
+        double degree = Utils.roundUp(hole.getDegree(), 4);
+        assertEquals(0.8133, degree);
     }
 
 
@@ -82,7 +81,7 @@ class HolesFinderTest {
 
         holesFinder.findForSphere(new Sphere(5));
 
-        assertEquals(0.0, holesFinder.findHoleWithMaximumDegree().getDegree());
+        assertEquals(0.72379776258, holesFinder.findHoleWithMaximumDegree().getDegree());
     }
 
 
@@ -109,8 +108,6 @@ class HolesFinderTest {
         Sphere c2 = new Sphere(10);
         c2.setCoords(coords(20, 5));
 
-        System.out.println(Utils.computeDistanceBetweenCircuits(c1, c2));
-
         double x1 = 5;
         double y1 = 5;
         double r1 = 5;
@@ -118,8 +115,9 @@ class HolesFinderTest {
         double y2 = 5;
         double r2 = 10;
 
-        System.out.println(sqrt(pow(x1 - x2, 2) + pow(y1 - y2, 2) + pow(r1 - r2, 2)));
+        assertEquals(0.0, Utils.computeDistanceBetweenCircuits(c1, c2));
 
+        System.out.println(sqrt(pow(x1 - x2, 2) + pow(y1 - y2, 2) + pow(r1 - r2, 2)));
     }
 
 }

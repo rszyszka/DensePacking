@@ -52,7 +52,7 @@ public class HolesFinder3DTest {
         Hole hole1 = holes.get(size - 2);
         Hole hole2 = holes.get(size - 1);
 
-        assertEquals(12, size);
+        assertEquals(16, size);
         assertEquals(Coords.coords(1.0000000000000004, 2.9999999999999996, 1), hole1.getCoords());
         assertEquals(Coords.coords(2.9999999999999996, 1.0000000000000004, 1), hole2.getCoords());
     }
@@ -76,7 +76,7 @@ public class HolesFinder3DTest {
         Hole hole1 = holes.get(size - 2);
         Hole hole2 = holes.get(size - 1);
 
-        assertEquals(12, size);
+        assertEquals(16, size);
         assertEquals(Coords.coords(1, 1.0000000000000004, 2.9999999999999996), hole1.getCoords());
         assertEquals(Coords.coords(1, 2.9999999999999996, 1.0000000000000004), hole2.getCoords());
     }
@@ -100,7 +100,7 @@ public class HolesFinder3DTest {
         Hole hole1 = holes.get(size - 2);
         Hole hole2 = holes.get(size - 1);
 
-        assertEquals(12, size);
+        assertEquals(16, size);
         assertEquals(Coords.coords(1.0000000000000004, 1, 2.9999999999999996), hole1.getCoords());
         assertEquals(Coords.coords(2.9999999999999996, 1, 1.0000000000000004), hole2.getCoords());
     }

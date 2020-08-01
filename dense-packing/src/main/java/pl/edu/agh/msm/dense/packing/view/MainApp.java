@@ -2,6 +2,7 @@ package pl.edu.agh.msm.dense.packing.view;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
@@ -10,18 +11,21 @@ import pl.edu.agh.msm.dense.packing.model.*;
 
 
 public class MainApp extends Application {
-    public static final int X_SIZE = 200;
-    public static final int Y_SIZE = 200;
-    public static final int Z_SIZE = 200;
+    public static final int X_SIZE = 1000;
+    public static final int Y_SIZE = 1000;
+    public static final int Z_SIZE = 1;
 
 //    public static final int X_SIZE = 200;
 //    public static final int Y_SIZE = 200;
 //    public static final int Z_SIZE = 200;
 
-    public static final int MIN_R = 40;
+    public static final int MIN_R = 20;
     public static final int MAX_R = 40;
 
     private BorderPane borderPane;
+    public View view;
+    private Bin bin;
+    private BinSphereMixer mixer;
 
     public static void main(String[] args) {
         launch(args);
@@ -37,28 +41,52 @@ public class MainApp extends Application {
         Scene scene = new Scene(rootNode);
         primaryStage.setScene(scene);
         primaryStage.setTitle("Dense Packing");
-        primaryStage.setOnShown(event -> simulate());
+        bin = new Bin(X_SIZE, Y_SIZE, Z_SIZE);
+        view = View.create(borderPane, bin);
+        mixer = BinSphereMixer.create(bin);
+        scene.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.SPACE) {
+                simulatePacking();
+            }
+            if (event.getCode() == KeyCode.A) {
+                simulateMixing();
+            }
+            if (event.getCode() == KeyCode.S) {
+                mixer.reverseGravity();
+            }
+            if (event.getCode() == KeyCode.D) {
+                mixer.stop();
+            }
+
+        });
         primaryStage.show();
     }
 
+    private void simulateMixing() {
+        MixingBallsTask task = new MixingBallsTask(mixer, bin);
+        task.valueProperty().addListener((observable, oldValue, newValue) -> view.drawUsingStandardOvalFilling(bin.getSpheres()));
+        task.setOnSucceeded(event -> view.drawUsingStandardOvalFilling(bin.getSpheres()));
+        Thread thread = new Thread(task);
+        thread.setDaemon(true);
+        thread.start();
+    }
 
-    public void simulate() {
-        Bin bin = new Bin(X_SIZE, Y_SIZE, Z_SIZE);
-        SphereGenerator sphereGenerator = new LargestSphereGenerator(MIN_R, MAX_R);
-        InitialConfiguration initialConfiguration = new TangentialCirclesInitialConfiguration(bin, sphereGenerator);
+
+    public void simulatePacking() {
+        SphereGenerator sphereGenerator = new RandomSphereGenerator(MIN_R, MAX_R);
+        InitialConfiguration initialConfiguration = new OneCornerSphereInitialConfiguration(bin, sphereGenerator);
         HolesFinder holesFinder = HolesFinder.create(bin);
-        HolesFinder.PENALTY_VALUE = 0.18;
+        HolesFinder.PENALTY_VALUE = 0.2;
+        HolesFinder.penaltyType = PenaltyType.ALL_EXCEPT_TOP;
 
         GreedyPacker packer = new GreedyPacker(initialConfiguration, holesFinder);
         Space space = new Space(X_SIZE, Y_SIZE, Z_SIZE);
         GreedyPackingSimulation simulation = new GreedyPackingSimulation(space, packer);
 
-        Thread thread;
-        if (Z_SIZE == 1) {
-            thread = new Thread(new TwoDimensionalView(borderPane, simulation, bin));
-        } else {
-            thread = new Thread(new ThreeDimensionalView(borderPane, simulation, bin));
-        }
+        SimulationTask task = new SimulationTask(simulation, bin);
+        task.valueProperty().addListener((observable, oldValue, newValue) -> view.drawUsingStandardOvalFilling(newValue));
+        task.setOnSucceeded(event -> view.drawUsingStandardOvalFilling(bin.getSpheres()));
+        Thread thread = new Thread(task);
         thread.setDaemon(true);
         thread.start();
     }

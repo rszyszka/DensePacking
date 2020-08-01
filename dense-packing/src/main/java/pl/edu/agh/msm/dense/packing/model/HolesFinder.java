@@ -11,6 +11,7 @@ import static pl.edu.agh.msm.dense.packing.model.Coords.coords;
 public abstract class HolesFinder {
 
     public static double PENALTY_VALUE = 0.1;
+    public static PenaltyType penaltyType = PenaltyType.GLOBAL;
     protected Bin bin;
     protected Sphere sphere;
     protected List<Hole> solutionHoles;
@@ -74,16 +75,8 @@ public abstract class HolesFinder {
 
 
     private void calculateHoleDegree(Hole hole) {
-        double minDistance = this.minDistance.compute(hole);
-        boolean penalty = false;
-        for (Object o : hole.getParentObjects()) {
-            if (o instanceof Plane) {
-                penalty = true;
-                break;
-            }
-        }
-
-        double degree = 1.0 - (minDistance / sphere.getR());
+        boolean penalty = determineIfPenaltyShouldBeApplied(hole);
+        double degree = 1.0 - (this.minDistance.compute(hole) / sphere.getR());
         hole.setDegree(penalty ? degree - PENALTY_VALUE : degree);
     }
 
@@ -110,6 +103,41 @@ public abstract class HolesFinder {
         int r1 = sphere.getR() + c1.getR();
         int r2 = sphere.getR() + c2.getR();
         return (pow(distanceBetweenMiddles, 2) + pow(r1, 2) - pow(r2, 2)) / (2 * distanceBetweenMiddles * r1);
+    }
+
+
+    private boolean determineIfPenaltyShouldBeApplied(Hole hole) {
+        switch (penaltyType) {
+            case GLOBAL:
+                for (Object o : hole.getParentObjects()) {
+                    if (o instanceof Plane) {
+                        return true;
+                    }
+                }
+                break;
+            case HUNDRED_POSITIONS:
+                for (Object o : hole.getParentObjects()) {
+                    if (o instanceof Plane && ((Plane) o).getPosition() == 100.0) {
+                        return true;
+                    }
+                }
+                break;
+            case ALL_EXCEPT_TOP:
+                for (Object o : hole.getParentObjects()) {
+                    if (o instanceof Plane && (((Plane) o).getPosition() != 0 || ((Plane) o).getType() != Plane.Type.XZ)) {
+                        return true;
+                    }
+                }
+                break;
+            case ALL_EXCEPT_BOT:
+                for (Object o : hole.getParentObjects()) {
+                    if (o instanceof Plane && (((Plane) o).getPosition() != 100 || ((Plane) o).getType() != Plane.Type.XZ)) {
+                        return true;
+                    }
+                }
+                break;
+        }
+        return false;
     }
 
 }

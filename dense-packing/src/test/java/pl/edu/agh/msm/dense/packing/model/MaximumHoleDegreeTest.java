@@ -1,9 +1,7 @@
 package pl.edu.agh.msm.dense.packing.model;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import pl.edu.agh.msm.core.Space;
-
-import java.util.List;
 
 public class MaximumHoleDegreeTest {
     public static final int X_SIZE = 100;
@@ -18,20 +16,12 @@ public class MaximumHoleDegreeTest {
         SphereGenerator sphereGenerator = new LargestSphereGenerator(MIN_R, MAX_R);
         InitialConfiguration initialConfiguration = new TangentialCirclesInitialConfiguration(bin, sphereGenerator);
         HolesFinder holesFinder = HolesFinder.create(bin);
-
-        GreedyPacker packer = new GreedyPacker(initialConfiguration, holesFinder);
-        Space space = new Space(X_SIZE, Y_SIZE, Z_SIZE);
-        GreedyPackingSimulation simulation = new GreedyPackingSimulation(space, packer);
-
-        ForEachMinDistance distance = new ForEachMinDistance(bin);
+        initialConfiguration.init();
         Sphere sphere = sphereGenerator.generateNewSphere();
+        holesFinder.findForSphere(sphere);
 
-        List<Hole> holes = holesFinder.findForSphere(sphere);
-
-        holes.forEach(hole -> {
-            System.out.println(hole);
-            System.out.println(distance.compute(hole));
-        });
+        Hole bestHole = holesFinder.findHoleWithMaximumDegree();
+        System.out.println(bestHole);
+        Assertions.assertEquals(0.07, Utils.roundUp(bestHole.getDegree(), 2));
     }
-
 }

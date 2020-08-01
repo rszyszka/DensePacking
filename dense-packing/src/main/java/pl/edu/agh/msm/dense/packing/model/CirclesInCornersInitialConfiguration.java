@@ -1,7 +1,7 @@
 package pl.edu.agh.msm.dense.packing.model;
 
 public class CirclesInCornersInitialConfiguration extends InitialConfiguration {
-    CirclesInCornersInitialConfiguration(Bin bin, SphereGenerator sphereGenerator) {
+    public CirclesInCornersInitialConfiguration(Bin bin, SphereGenerator sphereGenerator) {
         super(bin, sphereGenerator);
     }
 

@@ -1,7 +1,6 @@
 package pl.edu.agh.msm.dense.packing.model;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 
 import static java.lang.Math.pow;
 import static java.lang.Math.sqrt;
@@ -11,29 +10,39 @@ import static pl.edu.agh.msm.dense.packing.model.Coords.coords;
 public class Utils {
 
     public static boolean isSphereAbleToBePlacedInBin(Sphere sphere, Bin bin) {
-        if (!isSphereNotOverlappingBin(sphere, bin)) {
-            return false;
-        }
+        return !(isSphereOverlappingBin(sphere, bin) || isSphereOverlappingAnyOtherSphereInBin(sphere, bin));
+    }
+
+
+    public static boolean isSphereOverlappingBin(Sphere c1, Bin bin) {
+        boolean overlappingWidth = isOverlappingSize(c1.getCoords().getX(), c1.getR(), bin.getXSize());
+        boolean overlappingHeight = isOverlappingSize(c1.getCoords().getY(), c1.getR(), bin.getYSize());
+        boolean overlappingDepth = bin.getZSize() > 1 && isOverlappingSize(c1.getCoords().getZ(), c1.getR(), bin.getZSize());
+
+        return overlappingWidth || overlappingHeight || overlappingDepth;
+    }
+
+
+    public static boolean isOverlappingSize(double coordsPart, int r, int size) {
+        coordsPart = roundUp(coordsPart, 10);
+        return coordsPart - r < 0 || coordsPart + r > size;
+    }
+
+    public static boolean isSphereOverlappingAnyOtherSphereInBin(Sphere sphere, Bin bin) {
         for (Sphere s : bin.getSpheres()) {
-            if (!Utils.areSpheresNotOverlapping(sphere, s)) {
-                return false;
+            if (sphere.equals(s)) {
+                continue;
+            }
+            if (Utils.areSpheresOverlapping(sphere, s)) {
+                return true;
             }
         }
-        return true;
-    }
-
-    public static boolean areSpheresNotOverlapping(Sphere s1, Sphere s2) {
-        return computeDistanceBetweenCircuits(s1, s2) >= 0.0;
+        return false;
     }
 
 
-    public static boolean isSphereNotOverlappingBin(Sphere c1, Bin bin) {
-        boolean notOverlappingWidth = isNotOverlappingSize(c1.getCoords().getX(), c1.getR(), bin.getXSize());
-        boolean notOverlappingHeight = isNotOverlappingSize(c1.getCoords().getY(), c1.getR(), bin.getYSize());
-        boolean notOverlappingDepth = bin.getZSize() == 1 || isNotOverlappingSize(c1.getCoords().getZ(), c1.getR(), bin.getZSize());
-
-
-        return notOverlappingWidth && notOverlappingHeight && notOverlappingDepth;
+    public static boolean areSpheresOverlapping(Sphere s1, Sphere s2) {
+        return computeDistanceBetweenCircuits(s1, s2) < 0;
     }
 
 
@@ -44,18 +53,12 @@ public class Utils {
 
     public static double computeDistanceBetweenMiddles(Sphere s1, Sphere s2) {
         double distance = sqrt(computeSquaredDistance(s1.getCoords(), s2.getCoords()));
-        return BigDecimal.valueOf(distance).setScale(10, RoundingMode.HALF_UP).doubleValue();
+        return roundUp(distance, 10);
     }
 
 
     public static double computeSquaredDistance(Coords s1, Coords s2) {
         return pow(s1.getX() - s2.getX(), 2) + pow(s1.getY() - s2.getY(), 2) + pow(s1.getZ() - s2.getZ(), 2);
-    }
-
-
-    private static boolean isNotOverlappingSize(double coordsPart, int r, int size) {
-        coordsPart = BigDecimal.valueOf(coordsPart).setScale(10, RoundingMode.HALF_UP).doubleValue();
-        return coordsPart - r >= 0 && size - coordsPart - r >= 0.0;
     }
 
 
@@ -79,6 +82,11 @@ public class Utils {
         double y = c1.getZ() * c2.getX() - c1.getX() * c2.getZ();
         double z = c1.getX() * c2.getY() - c1.getY() * c2.getX();
         return coords(x, y, z);
+    }
+
+
+    public static double roundUp(double value, int scale) {
+        return BigDecimal.valueOf(value).setScale(scale, BigDecimal.ROUND_HALF_UP).doubleValue();
     }
 
 }

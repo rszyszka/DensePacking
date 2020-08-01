@@ -7,8 +7,8 @@ import org.junit.jupiter.params.provider.ValueSource;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static pl.edu.agh.msm.dense.packing.model.Coords.coords;
-import static pl.edu.agh.msm.dense.packing.model.Utils.areSpheresNotOverlapping;
-import static pl.edu.agh.msm.dense.packing.model.Utils.isSphereNotOverlappingBin;
+import static pl.edu.agh.msm.dense.packing.model.Utils.areSpheresOverlapping;
+import static pl.edu.agh.msm.dense.packing.model.Utils.isSphereOverlappingBin;
 
 
 public class UtilsTest {
@@ -20,7 +20,7 @@ public class UtilsTest {
         Sphere c2 = new Sphere(10);
         c2.setCoords(coords(25, 25));
 
-        assertTrue(areSpheresNotOverlapping(c1, c2));
+        assertFalse(areSpheresOverlapping(c1, c2));
     }
 
     @Test
@@ -30,7 +30,7 @@ public class UtilsTest {
         Sphere c2 = new Sphere(4);
         c2.setCoords(coords(13, 0));
 
-        assertFalse(areSpheresNotOverlapping(c1, c2));
+        assertTrue(areSpheresOverlapping(c1, c2));
     }
 
 
@@ -41,7 +41,7 @@ public class UtilsTest {
         sphere.setCoords(coords(x, 10));
         Bin bin = new Bin(100, 100);
 
-        assertTrue(isSphereNotOverlappingBin(sphere, bin));
+        assertFalse(isSphereOverlappingBin(sphere, bin));
     }
 
     @ParameterizedTest
@@ -51,7 +51,16 @@ public class UtilsTest {
         sphere.setCoords(coords(x, 10));
         Bin bin = new Bin(100, 100);
 
-        assertFalse(isSphereNotOverlappingBin(sphere, bin));
+        assertTrue(isSphereOverlappingBin(sphere, bin));
+    }
+
+
+    @Test
+    public void shouldCheckOnlyOneCondition() {
+        Bin bin = new Bin(10, 10);
+        Sphere sphere = new Sphere(5);
+
+        assertFalse(Utils.isSphereAbleToBePlacedInBin(sphere, bin));
     }
 
 }

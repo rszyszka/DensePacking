@@ -22,7 +22,7 @@ public class HolesFinder2DTest {
         List<Hole> holes = holesFinder.findForSphere(sphere);
 
         assertEquals(5, holes.size());
-        assertEquals(5, holes.get(3).getCoords().getY());
-        assertEquals(95, holes.get(4).getCoords().getX());
+        assertEquals(95, holes.get(3).getCoords().getX());
+        assertEquals(5, holes.get(4).getCoords().getY());
     }
 }

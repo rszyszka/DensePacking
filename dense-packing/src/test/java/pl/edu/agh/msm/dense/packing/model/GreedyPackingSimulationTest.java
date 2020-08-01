@@ -3,10 +3,9 @@ package pl.edu.agh.msm.dense.packing.model;
 import org.junit.jupiter.api.Test;
 import pl.edu.agh.msm.core.Space;
 
-import java.math.BigDecimal;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
+import static pl.edu.agh.msm.dense.packing.model.Utils.roundUp;
 
 public class GreedyPackingSimulationTest {
 
@@ -59,10 +58,6 @@ public class GreedyPackingSimulationTest {
         expected = roundUp(expected, 2);
         assertEquals(expected, roundUp(simulation.computeMathDensityLevel(), 2));
         assertEquals(expected, roundUp(simulation.computeVoxelDensityLevel(), 2));
-    }
-
-    double roundUp(double value, int scale) {
-        return BigDecimal.valueOf(value).setScale(scale, BigDecimal.ROUND_HALF_UP).doubleValue();
     }
 
 }

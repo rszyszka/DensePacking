@@ -7,7 +7,7 @@ public abstract class InitialConfiguration {
     protected final SphereGenerator sphereGenerator;
 
 
-    InitialConfiguration(Bin bin, SphereGenerator sphereGenerator) {
+    public InitialConfiguration(Bin bin, SphereGenerator sphereGenerator) {
         this.bin = bin;
         this.sphereGenerator = sphereGenerator;
     }
