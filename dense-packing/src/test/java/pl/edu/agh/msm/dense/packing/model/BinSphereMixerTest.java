@@ -108,7 +108,7 @@ class BinSphereMixerTest {
 
         assertEquals(0.9 * (currentYVelocity + 0.2), s1.getVelocity().getY());
 
-        mixer.reverseGravity();
+        mixer.changeGravityStateAndResetSpheresVelocities();
         currentYVelocity = s1.getVelocity().getY();
         mixer.performStep();
 
@@ -144,5 +144,39 @@ class BinSphereMixerTest {
             e.printStackTrace();
         }
         assertFalse(thread.isAlive());
+    }
+
+    @Test
+    public void gravityObjectShouldHaveCorrectSequence3D() {
+        Bin bin = new Bin(200, 200, 200);
+        BinSphereMixer mixer = BinSphereMixer.create(bin);
+        assertEquals(GravityXZ.class, mixer.gravity.getClass());
+        mixer.changeGravityStateAndResetSpheresVelocities();
+        assertEquals(GravityXZ.class, mixer.gravity.getClass());
+        mixer.changeGravityStateAndResetSpheresVelocities();
+        assertEquals(GravityYZ.class, mixer.gravity.getClass());
+        mixer.changeGravityStateAndResetSpheresVelocities();
+        assertEquals(GravityYZ.class, mixer.gravity.getClass());
+        mixer.changeGravityStateAndResetSpheresVelocities();
+        assertEquals(GravityXY.class, mixer.gravity.getClass());
+        mixer.changeGravityStateAndResetSpheresVelocities();
+        assertEquals(GravityXY.class, mixer.gravity.getClass());
+        mixer.changeGravityStateAndResetSpheresVelocities();
+        assertEquals(GravityXZ.class, mixer.gravity.getClass());
+    }
+
+    @Test
+    public void gravityObjectShouldHaveCorrectSequence2D() {
+        Bin bin = new Bin(200, 200, 1);
+        BinSphereMixer mixer = BinSphereMixer.create(bin);
+        assertEquals(GravityXZ.class, mixer.gravity.getClass());
+        mixer.changeGravityStateAndResetSpheresVelocities();
+        assertEquals(GravityXZ.class, mixer.gravity.getClass());
+        mixer.changeGravityStateAndResetSpheresVelocities();
+        assertEquals(GravityYZ.class, mixer.gravity.getClass());
+        mixer.changeGravityStateAndResetSpheresVelocities();
+        assertEquals(GravityYZ.class, mixer.gravity.getClass());
+        mixer.changeGravityStateAndResetSpheresVelocities();
+        assertEquals(GravityXZ.class, mixer.gravity.getClass());
     }
 }

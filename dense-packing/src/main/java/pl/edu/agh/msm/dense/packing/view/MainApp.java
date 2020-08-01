@@ -52,7 +52,7 @@ public class MainApp extends Application {
                 simulateMixing();
             }
             if (event.getCode() == KeyCode.S) {
-                mixer.reverseGravity();
+                mixer.changeGravityStateAndResetSpheresVelocities();
             }
             if (event.getCode() == KeyCode.D) {
                 mixer.stop();

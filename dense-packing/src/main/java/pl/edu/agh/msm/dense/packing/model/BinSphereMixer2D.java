@@ -8,6 +8,16 @@ public class BinSphereMixer2D extends BinSphereMixer {
     }
 
     @Override
+    protected void initializeGravitySequence() {
+        Gravity gravityXZ = new GravityXZ();
+        Gravity gravityYZ = new GravityYZ();
+        gravityXZ.setNext(gravityYZ);
+        gravityYZ.setNext(gravityXZ);
+
+        gravity = gravityXZ;
+    }
+
+    @Override
     protected void updateSpherePosition(Sphere sphere) {
         updateSphereXPosition(sphere);
         updateSphereYPosition(sphere);

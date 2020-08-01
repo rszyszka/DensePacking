@@ -1,6 +1,7 @@
 package pl.edu.agh.msm.dense.packing.model;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static pl.edu.agh.msm.dense.packing.model.Utils.computeDistanceBetweenMiddles;
@@ -9,16 +10,12 @@ import static pl.edu.agh.msm.dense.packing.model.Utils.roundUp;
 
 public class ThreeDimCollisionTest {
 
-    private static Velocity rotateByXY(Velocity velocity, double angle) {
-        double x = velocity.getX() * Math.cos(angle) - velocity.getY() * Math.sin(angle);
-        double y = velocity.getX() * Math.sin(angle) + velocity.getY() * Math.cos(angle);
-        return new Velocity(x, y, velocity.getZ());
-    }
+    private SphereCollision3D collision3D;
 
-    private static Velocity rotateByXZ(Velocity velocity, double angle) {
-        double x = velocity.getX() * Math.cos(angle) - velocity.getZ() * Math.sin(angle);
-        double z = velocity.getX() * Math.sin(angle) + velocity.getZ() * Math.cos(angle);
-        return new Velocity(x, velocity.getY(), z);
+
+    @BeforeEach
+    public void setup() {
+        collision3D = new SphereCollision3D();
     }
 
     @Test
@@ -35,11 +32,11 @@ public class ThreeDimCollisionTest {
         double sphere2ZPos = sphere2.getCoords().getZ();
 
         double angle1 = -Math.atan2(sphere2YPos - sphere1YPos, sphere2XPos - sphere1XPos);
-        Velocity firstRotation = rotateByXY(new Velocity(sphere2XPos, sphere2YPos, sphere2ZPos), angle1);
+        Velocity firstRotation = collision3D.rotateByXY(new Velocity(sphere2XPos, sphere2YPos, sphere2ZPos), angle1);
         double angle2 = -Math.atan2(firstRotation.getZ() - sphere1ZPos, firstRotation.getX() - sphere1XPos);
 
-        Velocity result = rotateByXZ(rotateByXY(new Velocity(sphere2XPos, sphere2YPos, sphere2ZPos), angle1), angle2);
-        Velocity backToRoot = rotateByXY(rotateByXZ(result, -angle2), -angle1);
+        Velocity result = collision3D.rotateByXZ(collision3D.rotateByXY(new Velocity(sphere2XPos, sphere2YPos, sphere2ZPos), angle1), angle2);
+        Velocity backToRoot = collision3D.rotateByXY(collision3D.rotateByXZ(result, -angle2), -angle1);
 
         double expectedDistance = computeDistanceBetweenMiddles(sphere1, sphere2) + 10;
         double actualDistance = roundUp(result.getX() + 10, 10);

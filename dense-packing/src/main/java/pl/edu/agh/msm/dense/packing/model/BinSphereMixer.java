@@ -2,19 +2,23 @@ package pl.edu.agh.msm.dense.packing.model;
 
 abstract public class BinSphereMixer {
     protected final Bin bin;
+    protected Gravity gravity;
     protected SphereCollision collision;
     protected double currentSphereXPos;
     protected double currentSphereYPos;
     protected double currentSphereZPos;
     private boolean mixing;
-    private double gravityValue;
 
 
     protected BinSphereMixer(Bin bin) {
         mixing = true;
         this.bin = bin;
-        gravityValue = 0.2;
+        initializeGravitySequence();
     }
+
+
+    protected abstract void initializeGravitySequence();
+
 
     public static BinSphereMixer create(Bin bin) {
         if (bin.getZSize() == 1) {
@@ -29,8 +33,8 @@ abstract public class BinSphereMixer {
     }
 
 
-    public void reverseGravity() {
-        gravityValue = -gravityValue;
+    public void changeGravityStateAndResetSpheresVelocities() {
+        gravity = gravity.getNextState();
         bin.getSpheres().forEach(sphere -> sphere.setVelocity(new Velocity((Math.random() - 0.5), (Math.random() - 0.5), (Math.random() - 0.5))));
     }
 
@@ -50,7 +54,7 @@ abstract public class BinSphereMixer {
             resolveCollisionsWithOtherSpheres(sphere);
             resolveCollisionsWithBoundaryPlanes(sphere);
             revertSpherePositionIfItIsOverlappingOtherSpheres(sphere);
-            applyGravityToSphereVelocity(sphere);
+            gravity.applyToSphereVelocity(sphere);
         }
     }
 
@@ -134,19 +138,13 @@ abstract public class BinSphereMixer {
     }
 
 
-    private void applyGravityToSphereVelocity(Sphere sphere) {
-        sphere.getVelocity().addToY(gravityValue);
-        sphere.getVelocity().multiplyY(0.9);
-
-        sphere.getVelocity().multiplyX(0.99);
-        sphere.getVelocity().multiplyZ(0.99);
-    }
-
     public boolean isMixing() {
         return mixing;
     }
 
+
     public void setMixing(boolean mixing) {
         this.mixing = mixing;
     }
+
 }
