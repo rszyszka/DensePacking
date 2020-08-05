@@ -73,11 +73,11 @@ public class MainApp extends Application {
 
 
     public void simulatePacking() {
-        SphereGenerator sphereGenerator = new RandomSphereGenerator(MIN_R, MAX_R);
+        SphereGenerator sphereGenerator = new OscillatingSphereGenerator(MIN_R, MAX_R, 1);
         InitialConfiguration initialConfiguration = new OneCornerSphereInitialConfiguration(bin, sphereGenerator);
         HolesFinder holesFinder = HolesFinder.create(bin);
-        HolesFinder.PENALTY_VALUE = 0.2;
-        HolesFinder.penaltyType = PenaltyType.ALL_EXCEPT_TOP;
+        HolesFinder.PENALTY_VALUE = 0.4;
+        HolesFinder.penaltyType = PenaltyType.NO_PENALTY;
 
         GreedyPacker packer = new GreedyPacker(initialConfiguration, holesFinder);
         Space space = new Space(X_SIZE, Y_SIZE, Z_SIZE);

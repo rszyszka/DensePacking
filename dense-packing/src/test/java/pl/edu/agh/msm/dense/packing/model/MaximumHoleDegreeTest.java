@@ -16,12 +16,13 @@ public class MaximumHoleDegreeTest {
         SphereGenerator sphereGenerator = new LargestSphereGenerator(MIN_R, MAX_R);
         InitialConfiguration initialConfiguration = new TangentialCirclesInitialConfiguration(bin, sphereGenerator);
         HolesFinder holesFinder = HolesFinder.create(bin);
+        HolesFinder.penaltyType = PenaltyType.NO_PENALTY;
         initialConfiguration.init();
         Sphere sphere = sphereGenerator.generateNewSphere();
         holesFinder.findForSphere(sphere);
 
         Hole bestHole = holesFinder.findHoleWithMaximumDegree();
         System.out.println(bestHole);
-        Assertions.assertEquals(0.07, Utils.roundUp(bestHole.getDegree(), 2));
+        Assertions.assertEquals(0.17, Utils.roundUp(bestHole.getDegree(), 2));
     }
 }

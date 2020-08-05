@@ -120,4 +120,77 @@ class HolesFinderTest {
         System.out.println(sqrt(pow(x1 - x2, 2) + pow(y1 - y2, 2) + pow(r1 - r2, 2)));
     }
 
+
+    @Test
+    public void shouldApplyPenaltyToHolesFromPlanesExceptTop() {
+        Sphere s1 = new Sphere(5);
+        s1.setCoords(Coords.coords(50, 95));
+        Assumptions.assumeTrue(bin.addSphere(s1));
+
+        Sphere sphere = new Sphere(3);
+        HolesFinder.PENALTY_VALUE = 0.0;
+        List<Hole> holes = holesFinder.findForSphere(sphere);
+
+        double expected1 = holes.get(3).getDegree();
+        double expected2 = holes.get(4).getDegree();
+        double expected3 = holes.get(5).getDegree();
+
+        HolesFinder.penaltyType = PenaltyType.ALL_EXCEPT_TOP;
+        HolesFinder.PENALTY_VALUE = 0.5;
+        holes = holesFinder.findForSphere(sphere);
+
+
+        assertEquals(expected1 - HolesFinder.PENALTY_VALUE, holes.get(3).getDegree());
+        assertEquals(expected2, holes.get(4).getDegree());
+        assertEquals(expected3 - HolesFinder.PENALTY_VALUE, holes.get(5).getDegree());
+    }
+
+    @Test
+    public void shouldApplyPenaltyToHolesFromPlanesExceptBot() {
+        Sphere s1 = new Sphere(5);
+        s1.setCoords(Coords.coords(50, 95));
+        Assumptions.assumeTrue(bin.addSphere(s1));
+
+        Sphere sphere = new Sphere(3);
+        HolesFinder.PENALTY_VALUE = 0.0;
+        List<Hole> holes = holesFinder.findForSphere(sphere);
+
+        double expected1 = holes.get(3).getDegree();
+        double expected2 = holes.get(4).getDegree();
+        double expected3 = holes.get(5).getDegree();
+
+        HolesFinder.penaltyType = PenaltyType.ALL_EXCEPT_BOT;
+        HolesFinder.PENALTY_VALUE = 0.5;
+        holes = holesFinder.findForSphere(sphere);
+
+
+        assertEquals(expected1 - HolesFinder.PENALTY_VALUE, holes.get(3).getDegree());
+        assertEquals(expected2 - HolesFinder.PENALTY_VALUE, holes.get(4).getDegree());
+        assertEquals(expected3, holes.get(5).getDegree());
+    }
+
+    @Test
+    public void shouldNotApplyAnyPenalty() {
+        Sphere s1 = new Sphere(5);
+        s1.setCoords(Coords.coords(50, 95));
+        Assumptions.assumeTrue(bin.addSphere(s1));
+
+        Sphere sphere = new Sphere(3);
+        HolesFinder.PENALTY_VALUE = 0.0;
+        List<Hole> holes = holesFinder.findForSphere(sphere);
+
+        double expected1 = holes.get(3).getDegree();
+        double expected2 = holes.get(4).getDegree();
+        double expected3 = holes.get(5).getDegree();
+
+        HolesFinder.penaltyType = PenaltyType.NO_PENALTY;
+        HolesFinder.PENALTY_VALUE = 0.5;
+        holes = holesFinder.findForSphere(sphere);
+
+
+        assertEquals(expected1, holes.get(3).getDegree());
+        assertEquals(expected2, holes.get(4).getDegree());
+        assertEquals(expected3, holes.get(5).getDegree());
+    }
+
 }

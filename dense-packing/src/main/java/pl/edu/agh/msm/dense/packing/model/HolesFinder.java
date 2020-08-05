@@ -115,13 +115,6 @@ public abstract class HolesFinder {
                     }
                 }
                 break;
-            case HUNDRED_POSITIONS:
-                for (Object o : hole.getParentObjects()) {
-                    if (o instanceof Plane && ((Plane) o).getPosition() == 100.0) {
-                        return true;
-                    }
-                }
-                break;
             case ALL_EXCEPT_TOP:
                 for (Object o : hole.getParentObjects()) {
                     if (o instanceof Plane && (((Plane) o).getPosition() != 0 || ((Plane) o).getType() != Plane.Type.XZ)) {
