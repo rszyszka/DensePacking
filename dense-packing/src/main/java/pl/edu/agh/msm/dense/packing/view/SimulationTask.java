@@ -33,7 +33,6 @@ public class SimulationTask extends Task<List<Sphere>> {
         long endTime = Instant.now().toEpochMilli();
 
         System.out.println("Time elapsed: " + (endTime - startTime) + " milliseconds");
-        System.out.println("Voxel density level: " + simulation.computeVoxelDensityLevel());
         System.out.println("Math density level: " + simulation.computeMathDensityLevel());
     }
 

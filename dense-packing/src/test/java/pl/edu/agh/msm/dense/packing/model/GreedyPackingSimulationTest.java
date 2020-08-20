@@ -37,7 +37,6 @@ public class GreedyPackingSimulationTest {
         double expected = (Math.PI * c1.getR() * c1.getR()) / (double) (bin.getXSize() * bin.getYSize());
         expected = roundUp(expected, 4);
         assertEquals(expected, roundUp(simulation.computeMathDensityLevel(), 4));
-        assertEquals(expected, roundUp(simulation.computeVoxelDensityLevel(), 4));
     }
 
 
@@ -57,7 +56,6 @@ public class GreedyPackingSimulationTest {
         double expected = 1.3333333333333333333 * Math.PI * Math.pow(c1.getR(), 3) / (double) (bin.getXSize() * bin.getYSize() * bin.getZSize());
         expected = roundUp(expected, 2);
         assertEquals(expected, roundUp(simulation.computeMathDensityLevel(), 2));
-        assertEquals(expected, roundUp(simulation.computeVoxelDensityLevel(), 2));
     }
 
 }

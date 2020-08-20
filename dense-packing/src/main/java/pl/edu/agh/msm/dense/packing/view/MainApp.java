@@ -19,8 +19,8 @@ public class MainApp extends Application {
 //    public static final int Y_SIZE = 200;
 //    public static final int Z_SIZE = 200;
 
-    public static final int MIN_R = 20;
-    public static final int MAX_R = 40;
+    public static final int MIN_R = 30;
+    public static final int MAX_R = 60;
 
     private BorderPane borderPane;
     public View view;
@@ -73,6 +73,7 @@ public class MainApp extends Application {
 
 
     public void simulatePacking() {
+        Space space = new Space(X_SIZE, Y_SIZE, Z_SIZE);
         SphereGenerator sphereGenerator = new OscillatingSphereGenerator(MIN_R, MAX_R, 1);
         InitialConfiguration initialConfiguration = new OneCornerSphereInitialConfiguration(bin, sphereGenerator);
         HolesFinder holesFinder = HolesFinder.create(bin);
@@ -80,7 +81,6 @@ public class MainApp extends Application {
         HolesFinder.penaltyType = PenaltyType.NO_PENALTY;
 
         GreedyPacker packer = new GreedyPacker(initialConfiguration, holesFinder);
-        Space space = new Space(X_SIZE, Y_SIZE, Z_SIZE);
         GreedyPackingSimulation simulation = new GreedyPackingSimulation(space, packer);
 
         SimulationTask task = new SimulationTask(simulation, bin);
