@@ -31,7 +31,7 @@ public class SpaceFillerTest {
         bin.addSphere(c1);
         bin.addSphere(c2);
 
-        filler.fillWithAllCircles(bin);
+        filler.fillWithAllSpheres(bin);
 
         assertArrayEquals(expected, retrieveResult(space));
     }
@@ -54,7 +54,7 @@ public class SpaceFillerTest {
         Sphere sphere = new Sphere(3);
         sphere.setCoords(coords(4, 4));
 
-        filler.fillWithCircle(sphere, 1);
+        filler.fillWithSphere(sphere, 1);
 
         assertArrayEquals(expected, retrieveResult(space));
     }

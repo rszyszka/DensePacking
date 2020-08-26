@@ -7,7 +7,7 @@ import java.time.Instant;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class BinSphereMixerTest {
+class SphereMixingSimulationTest {
 
     @Test
     public void shouldSwapVelocitiesBetweenSpheresWithDragApplied() {
@@ -21,7 +21,7 @@ class BinSphereMixerTest {
         Assumptions.assumeTrue(bin.addSphere(s1));
         Assumptions.assumeTrue(bin.addSphere(s2));
 
-        BinSphereMixer mixer = new BinSphereMixer2D(bin);
+        SphereMixingSimulation mixer = new SphereMixingSimulation2D(bin);
         mixer.performStep();
 
         assertEquals(-0.99 * 0.2, s1.getVelocity().getX());
@@ -41,7 +41,7 @@ class BinSphereMixerTest {
         Assumptions.assumeTrue(bin.addSphere(s1));
         Assumptions.assumeTrue(bin.addSphere(s2));
 
-        BinSphereMixer mixer = BinSphereMixer.create(bin);
+        SphereMixingSimulation mixer = SphereMixingSimulation.create(bin);
         mixer.performStep();
 
         double v1 = Math.abs(s1.getVelocity().getX());
@@ -58,7 +58,7 @@ class BinSphereMixerTest {
         s1.setCoords(Coords.coords(10, 50));
         Assumptions.assumeTrue(bin.addSphere(s1));
 
-        BinSphereMixer mixer = BinSphereMixer.create(bin);
+        SphereMixingSimulation mixer = SphereMixingSimulation.create(bin);
         mixer.performStep();
 
         assertEquals(0.99 * 0.5, s1.getVelocity().getX());
@@ -73,7 +73,7 @@ class BinSphereMixerTest {
         s1.setCoords(Coords.coords(50, 10));
         Assumptions.assumeTrue(bin.addSphere(s1));
 
-        BinSphereMixer mixer = BinSphereMixer.create(bin);
+        SphereMixingSimulation mixer = SphereMixingSimulation.create(bin);
         mixer.performStep();
 
         assertEquals(0.9 * (0.5 + 0.2), s1.getVelocity().getY());
@@ -88,7 +88,7 @@ class BinSphereMixerTest {
         s1.setCoords(Coords.coords(50, 50, 10));
         Assumptions.assumeTrue(bin.addSphere(s1));
 
-        BinSphereMixer mixer = BinSphereMixer.create(bin);
+        SphereMixingSimulation mixer = SphereMixingSimulation.create(bin);
         mixer.performStep();
 
         assertEquals(0.99 * 0.5, s1.getVelocity().getZ());
@@ -102,7 +102,7 @@ class BinSphereMixerTest {
         s1.setCoords(Coords.coords(50, 50, 50));
         Assumptions.assumeTrue(bin.addSphere(s1));
 
-        BinSphereMixer mixer = BinSphereMixer.create(bin);
+        SphereMixingSimulation mixer = SphereMixingSimulation.create(bin);
         double currentYVelocity = s1.getVelocity().getY();
         mixer.performStep();
 
@@ -127,7 +127,7 @@ class BinSphereMixerTest {
         Assumptions.assumeTrue(bin.addSphere(s1));
         Assumptions.assumeTrue(bin.addSphere(s2));
 
-        BinSphereMixer mixer = BinSphereMixer.create(bin);
+        SphereMixingSimulation mixer = SphereMixingSimulation.create(bin);
         Thread thread = new Thread(mixer::simulateContinuously);
         thread.setDaemon(true);
         thread.start();
@@ -149,7 +149,7 @@ class BinSphereMixerTest {
     @Test
     public void gravityObjectShouldHaveCorrectSequence3D() {
         Bin bin = new Bin(200, 200, 200);
-        BinSphereMixer mixer = BinSphereMixer.create(bin);
+        SphereMixingSimulation mixer = SphereMixingSimulation.create(bin);
         assertEquals(GravityXZ.class, mixer.gravity.getClass());
         mixer.changeGravityStateAndResetSpheresVelocities();
         assertEquals(GravityXZ.class, mixer.gravity.getClass());
@@ -168,7 +168,7 @@ class BinSphereMixerTest {
     @Test
     public void gravityObjectShouldHaveCorrectSequence2D() {
         Bin bin = new Bin(200, 200, 1);
-        BinSphereMixer mixer = BinSphereMixer.create(bin);
+        SphereMixingSimulation mixer = SphereMixingSimulation.create(bin);
         assertEquals(GravityXZ.class, mixer.gravity.getClass());
         mixer.changeGravityStateAndResetSpheresVelocities();
         assertEquals(GravityXZ.class, mixer.gravity.getClass());

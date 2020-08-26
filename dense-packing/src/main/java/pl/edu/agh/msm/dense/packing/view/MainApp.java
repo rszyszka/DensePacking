@@ -25,7 +25,7 @@ public class MainApp extends Application {
     private BorderPane borderPane;
     public View view;
     private Bin bin;
-    private BinSphereMixer mixer;
+    private SphereMixingSimulation mixer;
 
     public static void main(String[] args) {
         launch(args);
@@ -43,7 +43,7 @@ public class MainApp extends Application {
         primaryStage.setTitle("Dense Packing");
         bin = new Bin(X_SIZE, Y_SIZE, Z_SIZE);
         view = View.create(borderPane, bin);
-        mixer = BinSphereMixer.create(bin);
+        mixer = SphereMixingSimulation.create(bin);
         scene.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.SPACE) {
                 simulatePacking();

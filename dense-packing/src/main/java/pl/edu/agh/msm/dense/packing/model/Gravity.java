@@ -7,7 +7,7 @@ public abstract class Gravity {
 
     protected Gravity next;
 
-    public Gravity getNextState() {
+    public Gravity changeState() {
         if (gravityValue < 0) {
             reverse();
             return next;

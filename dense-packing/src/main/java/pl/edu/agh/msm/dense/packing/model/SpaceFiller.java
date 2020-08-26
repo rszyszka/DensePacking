@@ -17,16 +17,16 @@ public class SpaceFiller {
     }
 
 
-    public void fillWithAllCircles(Bin bin) {
+    public void fillWithAllSpheres(Bin bin) {
         int id = 1;
         for (Sphere sphere : bin.getSpheres()) {
-            fillWithCircle(sphere, id);
+            fillWithSphere(sphere, id);
             id++;
         }
     }
 
 
-    public void fillWithCircle(Sphere sphere, int id) {
+    public void fillWithSphere(Sphere sphere, int id) {
         int xStart = (int) floor(sphere.getCoords().getX()) - sphere.getR();
         int xEnd = (int) ceil(sphere.getCoords().getX()) + sphere.getR();
         int yStart = (int) floor(sphere.getCoords().getY()) - sphere.getR();

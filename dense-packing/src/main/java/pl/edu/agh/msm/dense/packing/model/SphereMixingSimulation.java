@@ -1,6 +1,6 @@
 package pl.edu.agh.msm.dense.packing.model;
 
-abstract public class BinSphereMixer {
+abstract public class SphereMixingSimulation {
     protected final Bin bin;
     protected Gravity gravity;
     protected SphereCollision collision;
@@ -10,7 +10,7 @@ abstract public class BinSphereMixer {
     private boolean mixing;
 
 
-    protected BinSphereMixer(Bin bin) {
+    protected SphereMixingSimulation(Bin bin) {
         mixing = true;
         this.bin = bin;
         initializeGravitySequence();
@@ -20,11 +20,11 @@ abstract public class BinSphereMixer {
     protected abstract void initializeGravitySequence();
 
 
-    public static BinSphereMixer create(Bin bin) {
+    public static SphereMixingSimulation create(Bin bin) {
         if (bin.getZSize() == 1) {
-            return new BinSphereMixer2D(bin);
+            return new SphereMixingSimulation2D(bin);
         } else {
-            return new BinSphereMixer3D(bin);
+            return new SphereMixingSimulation3D(bin);
         }
     }
 
@@ -34,7 +34,7 @@ abstract public class BinSphereMixer {
 
 
     public void changeGravityStateAndResetSpheresVelocities() {
-        gravity = gravity.getNextState();
+        gravity = gravity.changeState();
         bin.getSpheres().forEach(sphere -> sphere.setVelocity(new Velocity((Math.random() - 0.5), (Math.random() - 0.5), (Math.random() - 0.5))));
     }
 

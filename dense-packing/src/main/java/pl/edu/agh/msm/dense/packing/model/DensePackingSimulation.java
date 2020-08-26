@@ -8,7 +8,7 @@ import java.time.Instant;
 
 public class DensePackingSimulation extends Simulation {
     private final Bin bin;
-    private final BinSphereMixer mixingSpheresSimulation;
+    private final SphereMixingSimulation mixingSpheresSimulation;
     int minR;
     int maxR;
     private int numberOfFilledCells;
@@ -19,7 +19,7 @@ public class DensePackingSimulation extends Simulation {
         this.maxR = maxR;
         numberOfFilledCells = 0;
         bin = new Bin(space.getXSize(), space.getYSize(), space.getZSize());
-        mixingSpheresSimulation = BinSphereMixer.create(bin);
+        mixingSpheresSimulation = SphereMixingSimulation.create(bin);
     }
 
     @Override
@@ -47,7 +47,7 @@ public class DensePackingSimulation extends Simulation {
         System.out.println("STEP 2 finished.");
         System.out.println("STEP 3: Filling CA space");
         SpaceFiller filler = new SpaceFiller(space);
-        filler.fillWithAllCircles(bin);
+        filler.fillWithAllSpheres(bin);
         numberOfFilledCells = filler.getNumberOfFilledCells();
 
         System.out.println("Simulation completed");

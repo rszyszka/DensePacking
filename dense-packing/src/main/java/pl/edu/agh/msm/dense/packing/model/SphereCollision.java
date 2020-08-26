@@ -21,8 +21,8 @@ public abstract class SphereCollision {
     protected void computeNewVelocitiesUsingOneDimNewtonian(Sphere sphere, Sphere otherSphere) {
         double m1 = computeMass(sphere);
         double m2 = computeMass(otherSphere);
-        v1 = new Velocity(u1.getX() * (m1 - m2) / (m1 + m2) + u2.getX() * 2 * m2 / (m1 + m2), u1.getY());
-        v2 = new Velocity(u2.getX() * (m1 - m2) / (m1 + m2) + u1.getX() * 2 * m1 / (m1 + m2), u2.getY());
+        v1 = new Velocity(u1.getX() * (m1 - m2) / (m1 + m2) + u2.getX() * 2 * m2 / (m1 + m2), u1.getY(), u1.getZ());
+        v2 = new Velocity(u2.getX() * (m1 - m2) / (m1 + m2) + u1.getX() * 2 * m1 / (m1 + m2), u2.getY(), u2.getZ());
     }
 
 
@@ -47,10 +47,10 @@ public abstract class SphereCollision {
 
     protected double computeXZAngle(Coords coords, Coords otherCoords) {
         double sphere1XPos = coords.getX();
-        double sphere1YPos = coords.getY();
-        double sphere2YPos = otherCoords.getY();
+        double sphere1ZPos = coords.getZ();
+        double sphere2ZPos = otherCoords.getZ();
         double sphere2XPos = otherCoords.getX();
-        return -Math.atan2(sphere2YPos - sphere1YPos, sphere2XPos - sphere1XPos);
+        return -Math.atan2(sphere2ZPos - sphere1ZPos, sphere2XPos - sphere1XPos);
     }
 
 
