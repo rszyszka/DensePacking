@@ -9,18 +9,23 @@ import javafx.stage.Stage;
 import pl.edu.agh.msm.core.Space;
 import pl.edu.agh.msm.dense.packing.model.*;
 
+import java.time.Instant;
+
 
 public class MainApp extends Application {
-    public static final int X_SIZE = 1000;
-    public static final int Y_SIZE = 1000;
-    public static final int Z_SIZE = 1;
+//    public static final int X_SIZE = 1000;
+//    public static final int Y_SIZE = 1000;
+//    public static final int Z_SIZE = 1;
 
-//    public static final int X_SIZE = 200;
-//    public static final int Y_SIZE = 200;
-//    public static final int Z_SIZE = 200;
+    public static final int X_SIZE = 200;
+    public static final int Y_SIZE = 200;
+    public static final int Z_SIZE = 200;
 
-    public static final int MIN_R = 30;
-    public static final int MAX_R = 60;
+    public static final int MIN_R = 20;
+    public static final int MAX_R = 40;
+
+    public static final double PENALTY_VALUE = 0.02;
+    public static final PenaltyType PENALTY_TYPE = PenaltyType.GLOBAL;
 
     private BorderPane borderPane;
     public View view;
@@ -57,28 +62,51 @@ public class MainApp extends Application {
             if (event.getCode() == KeyCode.D) {
                 mixer.stop();
             }
+            if(event.getCode() == KeyCode.F){
+                Thread thread = new Thread(() -> {
+                    try { simulatePacking().join(); } catch (InterruptedException e) { e.printStackTrace(); }
+                    int squaredDimension = bin.getZSize() == 1 ? 4 : 6;
+                    for (int i = 0; i < squaredDimension; i++) {
+                        int mixingPeriod = 8500;
+                        long startTime = Instant.now().toEpochMilli();
+                        while (Instant.now().toEpochMilli() - startTime <= 30000) {
+                            long periodStartTime = Instant.now().toEpochMilli();
+                            simulateMixing();
+                            while (Instant.now().toEpochMilli() - periodStartTime <= mixingPeriod) { }
+                            mixer.stop();
+                            try { simulatePacking().join(); } catch (InterruptedException e) { e.printStackTrace(); }
+                            mixingPeriod = mixingPeriod <= 1000 ? 1000 : mixingPeriod - 2500;
+                        }
+                        mixer.changeGravityStateAndResetSpheresVelocities();
+                    }
+                });
+                thread.setDaemon(true);
+                thread.start();
+            }
 
         });
         primaryStage.show();
     }
 
-    private void simulateMixing() {
+    private Thread simulateMixing() {
         MixingBallsTask task = new MixingBallsTask(mixer, bin);
         task.valueProperty().addListener((observable, oldValue, newValue) -> view.drawUsingStandardOvalFilling(bin.getSpheres()));
         task.setOnSucceeded(event -> view.drawUsingStandardOvalFilling(bin.getSpheres()));
         Thread thread = new Thread(task);
         thread.setDaemon(true);
         thread.start();
+        return thread;
     }
 
 
-    public void simulatePacking() {
+    public Thread simulatePacking() {
         Space space = new Space(X_SIZE, Y_SIZE, Z_SIZE);
-        SphereGenerator sphereGenerator = new OscillatingSphereGenerator(MIN_R, MAX_R, 1);
-        InitialConfiguration initialConfiguration = new OneCornerSphereInitialConfiguration(bin, sphereGenerator);
+        SphereGenerator sphereGenerator = new RandomSphereGenerator(MIN_R, MAX_R);
+
+        InitialConfiguration initialConfiguration = new TangentialCirclesInitialConfiguration(bin, sphereGenerator);
         HolesFinder holesFinder = HolesFinder.create(bin);
-        HolesFinder.PENALTY_VALUE = 0.4;
-        HolesFinder.penaltyType = PenaltyType.NO_PENALTY;
+        HolesFinder.PENALTY_VALUE = PENALTY_VALUE;
+        HolesFinder.penaltyType = PENALTY_TYPE;
 
         GreedyPacker packer = new GreedyPacker(initialConfiguration, holesFinder);
         GreedyPackingSimulation simulation = new GreedyPackingSimulation(space, packer);
@@ -89,6 +117,7 @@ public class MainApp extends Application {
         Thread thread = new Thread(task);
         thread.setDaemon(true);
         thread.start();
+        return thread;
     }
 
 }

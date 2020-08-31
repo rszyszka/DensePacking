@@ -24,12 +24,9 @@ public class DensePackingSimulation extends Simulation {
 
     @Override
     public boolean performStep() {
-        System.out.println("STEP 1: Greedy packing algorithm");
         performGreedyPacking();
-        System.out.println("STEP 1 finished.");
-        System.out.println("STEP 2: Mixing balls and trying to pack additional spheres");
-
-        for (int i = 0; i < 4; i++) {
+        int squaredDimension = bin.getZSize() == 1 ? 4 : 6;
+        for (int i = 0; i < squaredDimension; i++) {
             int mixingPeriod = 8500;
             long startTime = Instant.now().toEpochMilli();
             while (Instant.now().toEpochMilli() - startTime <= 30000) {
@@ -38,32 +35,29 @@ public class DensePackingSimulation extends Simulation {
                     mixingSpheresSimulation.performStep();
                 }
                 performGreedyPacking();
-                System.out.println("Step 2 continues mixing");
                 mixingPeriod = mixingPeriod <= 1000 ? 1000 : mixingPeriod - 2500;
             }
-            System.out.println("Changing gravity state");
             mixingSpheresSimulation.changeGravityStateAndResetSpheresVelocities();
         }
-        System.out.println("STEP 2 finished.");
-        System.out.println("STEP 3: Filling CA space");
         SpaceFiller filler = new SpaceFiller(space);
         filler.fillWithAllSpheres(bin);
         numberOfFilledCells = filler.getNumberOfFilledCells();
-
-        System.out.println("Simulation completed");
-        System.out.println("Voxel density: " + computeVoxelDensityLevel());
         return false;
     }
 
     private void performGreedyPacking() {
         HolesFinder holesFinder = HolesFinder.create(bin);
-        HolesFinder.penaltyType = PenaltyType.ALL_EXCEPT_TOP;
-        SphereGenerator sphereGenerator = new OscillatingSphereGenerator(minR, maxR, 1);
-        InitialConfiguration initialConfiguration = new OneCornerSphereInitialConfiguration(bin, sphereGenerator);
+        HolesFinder.penaltyType = PenaltyType.GLOBAL;
+        HolesFinder.PENALTY_VALUE = 0.02;
+        SphereGenerator sphereGenerator = new RandomSphereGenerator(minR, maxR);
+        InitialConfiguration initialConfiguration = new TangentialCirclesInitialConfiguration(bin, sphereGenerator);
         GreedyPacker packer = new GreedyPacker(initialConfiguration, holesFinder);
         GreedyPackingSimulation greedyPackingSimulation = new GreedyPackingSimulation(space, packer);
         greedyPackingSimulation.simulateContinuously();
-        System.out.println("Packing density: " + greedyPackingSimulation.computeMathDensityLevel());
+    }
+
+    public Bin getBin() {
+        return bin;
     }
 
     public double computeVoxelDensityLevel() {
