@@ -86,6 +86,7 @@ public class Utils {
 
 
     public static double roundUp(double value, int scale) {
+        //FIXME: rounding makes results better but causes HUGE performance lose
         return BigDecimal.valueOf(value).setScale(scale, BigDecimal.ROUND_HALF_UP).doubleValue();
     }
 

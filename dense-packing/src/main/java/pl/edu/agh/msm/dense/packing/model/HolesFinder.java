@@ -10,8 +10,8 @@ import static pl.edu.agh.msm.dense.packing.model.Coords.coords;
 
 public abstract class HolesFinder {
 
-    public static double PENALTY_VALUE = 0.1;
-    public static PenaltyType penaltyType = PenaltyType.GLOBAL;
+    public static double PENALTY_VALUE;
+    public static PenaltyType penaltyType;
     protected Bin bin;
     protected Sphere sphere;
     protected List<Hole> solutionHoles;
