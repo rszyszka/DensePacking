@@ -4,6 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -15,10 +16,12 @@ import pl.edu.agh.msm.dense.packing.model.SphereGenerator;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
+
 public class SettingsWindow {
 
     public static boolean displayAndSetProperties(SimulationSettings settings) {
         Stage settingsWindow = new Stage();
+        settingsWindow.getIcons().add(new Image("/isim.png"));
 
         settingsWindow.initModality(Modality.APPLICATION_MODAL);
         settingsWindow.setTitle("Choose simulation properties");
@@ -117,10 +120,7 @@ public class SettingsWindow {
                 settings.setSphereGeneratorProperties(sphereGeneratorComboBox.getValue(), Integer.parseInt(oscillationStepTF.getText()));
                 settings.setInitialConfigurationType(initialConfigurationComboBox.getValue());
             } catch (Exception e) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Invalid input data");
-                alert.setContentText(e.getMessage());
-                alert.showAndWait();
+                MainViewController.raiseErrorAlert("Invalid input data", e.getMessage());
                 displayAndSetProperties(settings);
             }
         }

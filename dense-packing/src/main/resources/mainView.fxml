@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.input.KeyCodeCombination?>
+<?import javafx.geometry.Insets?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:id="rootAnchorPane" minHeight="-Infinity" minWidth="-Infinity"
+            prefHeight="1045" prefWidth="1003" xmlns="http://javafx.com/javafx/8.0.201"
+            fx:controller="pl.edu.agh.msm.dense.packing.view.MainViewController">
+    <VBox AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+        <MenuBar>
+            <Menu mnemonicParsing="false" text="File">
+                <MenuItem mnemonicParsing="false" onAction="#saveCASpace"
+                          text="Save CA space...">
+                    <accelerator>
+                        <KeyCodeCombination alt="UP" code="S" control="DOWN" meta="UP" shift="UP" shortcut="UP"/>
+                    </accelerator>
+                </MenuItem>
+                <MenuItem mnemonicParsing="false" onAction="#closeApp" text="Close app">
+                    <accelerator>
+                        <KeyCodeCombination alt="UP" code="X" control="DOWN" meta="UP" shift="UP" shortcut="UP"/>
+                    </accelerator>
+                </MenuItem>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Simulation">
+                <MenuItem mnemonicParsing="false" onAction="#showSettings" text="Settings">
+                    <accelerator>
+                        <KeyCodeCombination alt="UP" code="ENTER" control="UP" meta="UP" shift="UP" shortcut="UP"/>
+                    </accelerator>
+                </MenuItem>
+                <MenuItem mnemonicParsing="false" onAction="#runGreedyPacking" text="Start greedy packing">
+                    <accelerator>
+                        <KeyCodeCombination alt="UP" code="SPACE" control="UP" meta="UP" shift="UP" shortcut="UP"/>
+                    </accelerator>
+                </MenuItem>
+                <MenuItem mnemonicParsing="false" onAction="#runMixing" text="Start mixing">
+                    <accelerator>
+                        <KeyCodeCombination alt="UP" code="A" control="UP" meta="UP" shift="UP" shortcut="UP"/>
+                    </accelerator>
+                </MenuItem>
+                <MenuItem mnemonicParsing="false" onAction="#changeMixingState" text="Change gravity state">
+                    <accelerator>
+                        <KeyCodeCombination alt="UP" code="S" control="UP" meta="UP" shift="UP" shortcut="UP"/>
+                    </accelerator>
+                </MenuItem>
+                <MenuItem mnemonicParsing="false" onAction="#stopMixing" text="Stop mixing">
+                    <accelerator>
+                        <KeyCodeCombination alt="UP" code="D" control="UP" meta="UP" shift="UP" shortcut="UP"/>
+                    </accelerator>
+                </MenuItem>
+                <MenuItem mnemonicParsing="false" onAction="#runDensePacking" text="Start dense packing">
+                    <accelerator>
+                        <KeyCodeCombination alt="UP" code="F" control="UP" meta="UP" shift="UP" shortcut="UP"/>
+                    </accelerator>
+                </MenuItem>
+            </Menu>
+        </MenuBar>
+        <HBox style="-fx-background-color: cornsilk">
+            <Label text="State: ">
+                <HBox.margin><Insets left="5"/></HBox.margin>
+            </Label>
+            <Label fx:id="stateLabel" text="Ready"/>
+            <Label text="Current density: ">
+                <HBox.margin><Insets left="20"/></HBox.margin>
+            </Label>
+            <Label fx:id="densityLabel" text="0.0"/>
+        </HBox>
+        <HBox>
+        <BorderPane fx:id="borderPane" style="-fx-border-color: BLACK;"/>
+        </HBox>
+    </VBox>
+</AnchorPane>
