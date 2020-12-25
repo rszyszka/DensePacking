@@ -29,7 +29,7 @@ public class SimulationSettings {
         return sizeZ;
     }
 
-    public void setSize(int x, int y, int z){
+    public void setSize(int x, int y, int z) {
         sizeX = x;
         sizeY = y;
         sizeZ = z;

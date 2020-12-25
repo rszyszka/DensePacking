@@ -61,16 +61,20 @@
         </MenuBar>
         <HBox style="-fx-background-color: cornsilk">
             <Label text="State: ">
-                <HBox.margin><Insets left="5"/></HBox.margin>
+                <HBox.margin>
+                    <Insets left="5"/>
+                </HBox.margin>
             </Label>
             <Label fx:id="stateLabel" text="Ready"/>
             <Label text="Current density: ">
-                <HBox.margin><Insets left="20"/></HBox.margin>
+                <HBox.margin>
+                    <Insets left="20"/>
+                </HBox.margin>
             </Label>
             <Label fx:id="densityLabel" text="0.0"/>
         </HBox>
         <HBox>
-        <BorderPane fx:id="borderPane" style="-fx-border-color: BLACK;"/>
+            <BorderPane fx:id="borderPane" style="-fx-border-color: BLACK;"/>
         </HBox>
     </VBox>
 </AnchorPane>

@@ -11,7 +11,7 @@ import java.time.Instant;
 
 
 public class PackingResultsTest {
-//        public static final int X_SIZE = 1000;
+    //        public static final int X_SIZE = 1000;
 //    public static final int Y_SIZE = 1000;
 //    public static final int Z_SIZE = 1;
     public static final int X_SIZE = 200;
@@ -55,7 +55,7 @@ public class PackingResultsTest {
     public void densePackingTest() {
         for (int i = 0; i < 10; i++) {
             Space space = new Space(X_SIZE, Y_SIZE, Z_SIZE);
-            DensePackingSimulation simulation = new DensePackingSimulation(space, MIN_R,MAX_R);
+            DensePackingSimulation simulation = new DensePackingSimulation(space, MIN_R, MAX_R);
             Bin bin = simulation.getBin();
 
             long startTime = Instant.now().toEpochMilli();
@@ -74,7 +74,7 @@ public class PackingResultsTest {
     public void densePackingTest2020() {
         for (int i = 0; i < 10; i++) {
             Space space = new Space(X_SIZE, Y_SIZE, Z_SIZE);
-            DensePackingSimulation simulation = new DensePackingSimulation(space, 20,20);
+            DensePackingSimulation simulation = new DensePackingSimulation(space, 20, 20);
             Bin bin = simulation.getBin();
 
             long startTime = Instant.now().toEpochMilli();
@@ -127,19 +127,19 @@ public class PackingResultsTest {
         for (int j = 0; j < 31; j++) {
             double densitySum = 0;
             //for (int i = 0; i < 10; i++) {
-                Bin bin = new Bin(X_SIZE, Y_SIZE, Z_SIZE);
-                SphereGenerator sphereGenerator = new OscillatingSphereGenerator(MIN_R,MAX_R ,5);
-                InitialConfiguration initialConfiguration = new TangentialCirclesInitialConfiguration(bin, sphereGenerator);
-                HolesFinder holesFinder = HolesFinder.create(bin);
-                HolesFinder.penaltyType = PenaltyType.GLOBAL;
-                HolesFinder.PENALTY_VALUE = penaltyValue;
+            Bin bin = new Bin(X_SIZE, Y_SIZE, Z_SIZE);
+            SphereGenerator sphereGenerator = new OscillatingSphereGenerator(MIN_R, MAX_R, 5);
+            InitialConfiguration initialConfiguration = new TangentialCirclesInitialConfiguration(bin, sphereGenerator);
+            HolesFinder holesFinder = HolesFinder.create(bin);
+            HolesFinder.penaltyType = PenaltyType.GLOBAL;
+            HolesFinder.PENALTY_VALUE = penaltyValue;
 
-                GreedyPacker packer = new GreedyPacker(initialConfiguration, holesFinder);
-                Space space = new Space(X_SIZE, Y_SIZE, Z_SIZE);
-                GreedyPackingSimulation simulation = new GreedyPackingSimulation(space, packer);
+            GreedyPacker packer = new GreedyPacker(initialConfiguration, holesFinder);
+            Space space = new Space(X_SIZE, Y_SIZE, Z_SIZE);
+            GreedyPackingSimulation simulation = new GreedyPackingSimulation(space, packer);
 
-                simulation.simulateContinuously();
-                densitySum = simulation.computeMathDensityLevel();
+            simulation.simulateContinuously();
+            densitySum = simulation.computeMathDensityLevel();
             //}
             System.out.println(penaltyValue + "\t" + (densitySum));
             penaltyValue = Utils.roundUp(penaltyValue + 0.01, 2);

@@ -109,6 +109,7 @@ public class MainViewController implements Initializable {
     public void runMixing() {
         if (action == Action.NONE) {
             action = Action.MIXING;
+            mixer = SphereMixingSimulation.create(bin);
             simulateMixing();
         } else {
             raiseWarningAlert();
@@ -163,6 +164,7 @@ public class MainViewController implements Initializable {
 
     private void simulateDensePacking() {
         Thread thread = new Thread(() -> {
+            mixer = SphereMixingSimulation.create(bin);
             Platform.runLater(() -> stateLabel.setText(RUNNING));
             try {
                 simulateGreedyPacking().join();
@@ -200,7 +202,6 @@ public class MainViewController implements Initializable {
     }
 
     private void simulateMixing() {
-        mixer = SphereMixingSimulation.create(bin);
         MixingBallsTask task = new MixingBallsTask(mixer, bin);
         task.valueProperty().addListener((observable, oldValue, newValue) -> view.drawUsingStandardOvalFilling(bin.getSpheres()));
         task.setOnSucceeded(event -> {

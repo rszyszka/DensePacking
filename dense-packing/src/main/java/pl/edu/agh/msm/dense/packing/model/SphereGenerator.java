@@ -8,8 +8,8 @@ public interface SphereGenerator {
 
     void resetMaxRadius();
 
-    static SphereGenerator create(Type type, int minRadius, int maxRadius, int counter){
-        switch (type){
+    static SphereGenerator create(Type type, int minRadius, int maxRadius, int counter) {
+        switch (type) {
             case RANDOM:
                 return new RandomSphereGenerator(minRadius, maxRadius);
             case LARGEST:
